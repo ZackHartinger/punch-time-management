@@ -256,7 +256,8 @@ const HomePage = () => {
     return (
         <div className="container pt-3">
             <PageTitle title={title} />
-            <div className="work-day-card">
+            {/* The home page will display a table of the authenticated users last 5 work days and allow them to edit or delete workdays. Once hooked up the API the response will come from a get method on the server */}
+            <div className="">
                 <WorkDayTable tableData={workdays.slice(0, 5)} />
             </div>
         </div>

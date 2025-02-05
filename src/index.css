@@ -47,16 +47,27 @@ body {
   }
 }
 
+/* HomePage styling */
+
+table.work-day-table {
+  border-radius: 15px;
+}
+
+table.work-day-table th {
+  background-color: #517841;
+  color: #eee;
+}
+
 div.page-title h1 {
   letter-spacing: .1rem;
   font-weight: 500;
 }
 
+/* ViewHoursPage styling */
 .work-day-card {
   background-color: #517841;
   color: #eee
 }
-
 
 .work-day-details {
   margin-left: 2rem;
@@ -103,18 +114,4 @@ button.btn-submit {
 button.btn-submit:hover {
   background-color: #a8bca0;
   color: #333;
-}
-
-table.work-day-table {
-  border-radius: 15px;
-}
-
-table.work-day-table th {
-  background-color: #517841;
-  color: #eee;
-  border-radius: 15px;
-}
-
-table.work-day-table tbody {
-  background-color: red;
 }

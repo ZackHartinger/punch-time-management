@@ -14,6 +14,7 @@ const NewHoursPage = () => {
 
     const todayString = today.toLocaleString('sv').split(' ')[0];
 
+    // Test JSON data
     const TaskList = [
         {
             "category": "General Labor",
@@ -98,7 +99,6 @@ const NewHoursPage = () => {
             // Remove value from the array
             setWorkdayTasks(workdayTasks.filter(item => item !== value));
         }
-        // console.log(workdayTasks)
     };
 
     return (
@@ -107,6 +107,7 @@ const NewHoursPage = () => {
                 <PageTitle title={title} />
                 <div className="new-work-day-form form-group container">
                     <form>
+                        {/* First and Last name fields to be removed once authentication is added. Once authentication is added the UserId will be stroed in a hidden input for JSON construction */}
                         <div className="row mb-2">
                             <div className="col-md-2">
                                 <label htmlFor="firstName" className="form-label">First Name</label>
@@ -199,7 +200,7 @@ const NewHoursPage = () => {
                                 <span className="text-danger"></span>
                             </div>
                         </div>
-
+                        {/* Collapsible components are created for each category of tasks. They hold a group of checkboxes that when checked, are added to the workDayTasks array in the employeeWorkday Object.Will create an algortithm to do this automatically as changes are made to the database */}
                         <Collapsible taskList={TaskList.filter(t => t.category === "General Labor")} updateTaskList={handleCheckboxChange}></Collapsible>
                         <Collapsible taskList={TaskList.filter(t => t.category === "Hardscape")} updateTaskList={handleCheckboxChange}></Collapsible>
                         <Collapsible taskList={TaskList.filter(t => t.category === "Irrigation")} updateTaskList={handleCheckboxChange}></Collapsible>
@@ -212,6 +213,7 @@ const NewHoursPage = () => {
                         </div>
                     </form>
                 </div >
+                {/* Test that data is being bound properly */}
                 <div>
                     <p>FirstName: {newWorkday.firstName}</p>
                     <p>LastName: {newWorkday.lastName}</p>

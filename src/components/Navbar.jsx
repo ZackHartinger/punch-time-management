@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
-
+    // This function collapses the navbar after a link is clicked
     const toggleCollapse = () => {
         const collapse = document.getElementById("my-navbar");
 

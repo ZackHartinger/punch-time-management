@@ -9,6 +9,7 @@ const ViewHoursPage = () => {
         setChecked(!checked);
     }
 
+    // Test JSON data 
     const workdays = [
         {
             "WorkDayId": 1,
@@ -259,8 +260,10 @@ const ViewHoursPage = () => {
         }
     ]
 
+    // Get a list of unique EmployeeId's for filtering
     const uniqueIds = [...new Set(workdays.map(workday => workday.EmployeeId))]
 
+    // Create array of workdays "grouped" by user Id to be used in the DOM, grouping them this way provide greater flexibility in how the data is displayed to the user
     const filteredWorkdays = []
     for (let i = 0; i < uniqueIds.length; i++) {
         filteredWorkdays.push(workdays.filter(workday => uniqueIds[i] == workday.EmployeeId))
@@ -271,6 +274,7 @@ const ViewHoursPage = () => {
         <>
             <div className="container pt-3">
                 <PageTitle title={title} />
+                {/* Form group for making requests to the server to display different data sets */}
                 <div>
                     <div className="filter-controls row mb-3">
                         <div className="col-12 col-md-4 mb-3">
@@ -311,7 +315,7 @@ const ViewHoursPage = () => {
                 </div>
 
             </div>
-
+            {/* Container for the WorkDayDisplay component */}
             <div className="work-data container">
                 <WorkDayDisplay filteredWorkdays={filteredWorkdays} />
             </div>

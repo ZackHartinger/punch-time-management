@@ -26,6 +26,7 @@ const WorkDayDisplay = ({ filteredWorkdays }) => {
                             <div className="row">
                                 <h5 className='work-day-tasks col-12'>
                                     {
+                                        // workDayTasks are seperated by comma per client request
                                         workday.WorkDayTasks.map((task, index) =>
 
                                             <span key={index}>

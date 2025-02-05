@@ -2,7 +2,7 @@ import React from 'react'
 
 const WorkDayTable = ({ tableData }) => {
     return (
-        <table class="table table-striped table-hover work-day-table rounded">
+        <table class="table table-striped table-hover work-day-table">
             <thead>
                 <tr>
                     <th scope="col">Date</th>
