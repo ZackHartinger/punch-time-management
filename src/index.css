@@ -1,0 +1,189 @@
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+
+body {
+  background-color: #eee !important;
+}
+
+
+@media (max-width: 768px) {
+  a.btn-block {
+    float: right;
+    display: block;
+    width: 75%;
+  }
+
+  a.btn-block:not(:last-child) {
+    margin-bottom: .8rem;
+  }
+
+  div.work-day-details {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 375px) {
+  .work-data {
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .new-work-day-form {
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .collapsible {
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  button.collapsible-btn {
+    border-radius: 0 !important;
+    text-align: left;
+  }
+
+  div.collapsible-content {
+    border-radius: 0 !important;
+  }
+}
+
+div.page-title h1 {
+  letter-spacing: .1rem;
+  font-weight: 500;
+}
+
+.work-day-card {
+  background-color: #517841;
+  color: #eee
+}
+
+
+.work-day-details {
+  margin-left: 2rem;
+  background-color: #a8bca0;
+  color: #333;
+}
+
+.work-day-card {
+  letter-spacing: .1rem;
+}
+
+.card-header {
+  letter-spacing: .2rem;
+}
+
+/* NewHoursPage styles */
+
+button.collapsible-btn {
+  background-color: #517841;
+  color: #eee;
+  border-radius: 0;
+}
+
+button.collapsible-btn:hover {
+  background-color: #a8bca0;
+  color: #333;
+}
+
+div.collapsible-content {
+  background-color: rgba(168, 188, 160, .6);
+  color: #333;
+  margin-top: 0;
+  border-radius: 0 0 10px 10px;
+  font-size: 1.2rem;
+}
+
+button.btn-submit {
+  background-color: #517841;
+  color: #eee;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+button.btn-submit:hover {
+  background-color: #a8bca0;
+  color: #333;
+}
+
+table.work-day-table {
+  border-radius: 15px;
+}
+
+table.work-day-table th {
+  background-color: #517841;
+  color: #eee;
+  border-radius: 15px;
+}
+
+table.work-day-table tbody {
+  background-color: red;
+}
