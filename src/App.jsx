@@ -14,6 +14,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
 function App() {
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<MainLayout />}>
@@ -23,7 +24,6 @@ function App() {
       </Route>
     )
   );
-
   return <RouterProvider router={router} />;
 }
 
