@@ -1,7 +1,8 @@
 import WorkDayDisplay from "../components/WorkDayDisplay";
 import PageTitle from "../components/PageTitle";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
+
 const ViewHoursPage = () => {
     const title = "View Hours";
     const [checked, setChecked] = useState(false);
@@ -261,13 +262,40 @@ const ViewHoursPage = () => {
     // ]
 
     const [workdays, setWorkdays] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [userId, setUserId] = useState();
 
+    const handleSelectChange = (event) => {
+        setUserId(event.target.value);
+    }
+
+    // get users
     useEffect(() => {
-        fetch('https://localhost:7019/api/EmployeeWorkDays', { mode: 'cors' })
+        fetch('https://localhost:7019/api/Users')
+            .then((res) => res.json())
+            .then((data) => {
+                setUsers(data);
+            })
+    })
+
+
+    // get workdays from server
+    useEffect(() => {
+        fetch('https://localhost:7019/api/EmployeeWorkDays')
+            .then((res) => res.json())
+            .then((data) => {
+                setWorkdays(data);
+            })
+    })
+
+    const filterData = useCallback(() => {
+        fetch(`https://localhost:7019/api/EmployeeWorkDays/${userId}`)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
+                setWorkdays([])
                 setWorkdays(data);
+
             })
     })
 
@@ -286,11 +314,19 @@ const ViewHoursPage = () => {
             <div className="container pt-3">
                 <PageTitle title={title} />
                 {/* Form group for making requests to the server to display different data sets */}
+                <p>{userId}</p>
                 <div>
                     <div className="filter-controls row mb-3">
                         <div className="col-12 col-md-4 mb-3">
-                            <label className="form-label" htmlFor="">Search by Name:</label>
-                            <input className="form-control" type="text" />
+                            <label className="form-label" htmlFor="" >Search by Name:</label>
+                            {/* <input className="form-control" type="text" value={employeeName} onChange={handleNameChange} /> */}
+                            <select className="form-select" onChange={handleSelectChange}>
+                                <option value="">Select an employee</option>
+                                {users.map(user =>
+                                    <option value={user.userId}>{user.fullName}</option>
+                                )
+                                }
+                            </select>
                         </div>
                         {checked == false ? (
                             <div className="col-12 col-md-8">
@@ -319,7 +355,7 @@ const ViewHoursPage = () => {
                     <div className="row mb-3">
                         <div className="col-3"></div>
                         <div className="col-6">
-                            <button className="btn btn-submit w-100">Filter</button>
+                            <button className="btn btn-submit w-100" onClick={filterData}>Filter</button>
                         </div>
                         <div className="col-3"></div>
                     </div>
