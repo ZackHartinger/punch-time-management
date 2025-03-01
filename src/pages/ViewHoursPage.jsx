@@ -8,6 +8,12 @@ const ViewHoursPage = () => {
     const [checked, setChecked] = useState(false);
     const handleCheck = () => {
         setChecked(!checked);
+        if (!checked) {
+            setToDate(tomorrow.toISOString().slice(0, 10))
+        }
+        else {
+            setToDate(null)
+        }
     }
 
     // // Test JSON data 
@@ -261,12 +267,26 @@ const ViewHoursPage = () => {
     //     }
     // ]
 
+    const today = new Date;
+    const tomorrow = new Date(new Date(today).setDate(today.getDate() + 5))
     const [workdays, setWorkdays] = useState([]);
     const [users, setUsers] = useState([]);
-    const [userId, setUserId] = useState();
+    const [userId, setUserId] = useState(0);
+    const [date, setDate] = useState(today.toISOString().slice(0, 10));
+    const [toDate, setToDate] = useState();
+
+    // document.getElementById("date").value = date;
 
     const handleSelectChange = (event) => {
         setUserId(event.target.value);
+    }
+
+    const handleDateChange = (event) => {
+        setDate(event.target.value);
+    }
+
+    const handleToDateChange = (event) => {
+        setToDate(event.target.value);
     }
 
     // get users
@@ -276,7 +296,8 @@ const ViewHoursPage = () => {
             .then((data) => {
                 setUsers(data);
             })
-    })
+    }, [])
+
 
 
     // get workdays from server
@@ -286,17 +307,31 @@ const ViewHoursPage = () => {
             .then((data) => {
                 setWorkdays(data);
             })
-    })
+    }, [])
 
+    // get workdays of specific user id
     const filterData = useCallback(() => {
-        fetch(`https://localhost:7019/api/EmployeeWorkDays/${userId}`)
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setWorkdays([])
-                setWorkdays(data);
-
-            })
+        if (date == null && toDate == null) {
+            fetch(`https://localhost:7019/api/EmployeeWorkDays/filter/${userId}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setWorkdays(data);
+                })
+        }
+        else if (toDate == null) {
+            fetch(`https://localhost:7019/api/EmployeeWorkDays/filter/${userId}/${date}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setWorkdays(data);
+                })
+        }
+        else {
+            fetch(`https://localhost:7019/api/EmployeeWorkDays/filter/${userId}/${date}/${toDate}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setWorkdays(data);
+                })
+        }
     })
 
     // Get a list of unique EmployeeId's for filtering
@@ -313,15 +348,15 @@ const ViewHoursPage = () => {
         <>
             <div className="container pt-3">
                 <PageTitle title={title} />
+
                 {/* Form group for making requests to the server to display different data sets */}
-                <p>{userId}</p>
                 <div>
                     <div className="filter-controls row mb-3">
                         <div className="col-12 col-md-4 mb-3">
                             <label className="form-label" htmlFor="" >Search by Name:</label>
                             {/* <input className="form-control" type="text" value={employeeName} onChange={handleNameChange} /> */}
                             <select className="form-select" onChange={handleSelectChange}>
-                                <option value="">Select an employee</option>
+                                <option value="0">Select an employee</option>
                                 {users.map(user =>
                                     <option value={user.userId}>{user.fullName}</option>
                                 )
@@ -329,17 +364,18 @@ const ViewHoursPage = () => {
                             </select>
                         </div>
                         {checked == false ? (
+
                             <div className="col-12 col-md-8">
                                 <label htmlFor="date" className="form-label">Search by date:</label>
-                                <input className="form-control" type="date" />
+                                <input className="form-control" type="date" value={date} onChange={handleDateChange} />
                             </div>) : (
                             <div className="col-12 col-md-8">
                                 <label htmlFor="date" className="form-label">Search by date range:</label>
                                 <div className="form-group row mb-2">
                                     <label className="col-form-label col-2" htmlFor="from-date">From</label>
-                                    <input className="form-control col-md" name="from-date" type="date" />
+                                    <input className="form-control col-md" name="from-date" type="date" value={date} onChange={handleDateChange} />
                                     <label className="col-form-label col-2" htmlFor="to-date">To</label>
-                                    <input className="form-control col-md" name="to-date" type="date" />
+                                    <input className="form-control col-md" name="to-date" type="date" value={toDate} onChange={handleToDateChange} />
                                 </div>
                             </div>
 

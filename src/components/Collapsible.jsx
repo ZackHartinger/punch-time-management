@@ -6,9 +6,6 @@ const Collapsible = ({ taskList, updateTaskList }) => {
     const trimmedCategory = category.replace(/\s+/g, "");
     const bsTarget = "#" + trimmedCategory;
 
-    console.log(taskList)
-
-
     return (
         <div className="row mb-3">
             <div className="collapsible col-md-8 pb-0">
