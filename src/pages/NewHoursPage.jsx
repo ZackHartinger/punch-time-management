@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
 import Collapsible from "../components/Collapsible";
 import PageTitle from "../components/PageTitle";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const NewHoursPage = () => {
     const title = "Submit new work day"
@@ -66,17 +67,6 @@ const NewHoursPage = () => {
         },
     ]
 
-    const [workTasks, setWorkTasks] = useState([])
-    // Get work tasks from db
-    useEffect(() => {
-        fetch('https://localhost:7019/api/WorkTasks')
-            .then((res) => res.json())
-            .then((data) => {
-                setWorkTasks(data)
-            })
-    }, [])
-    console.log(workTasks)
-
 
     const [firstName, setFirstName] = useState("Zack");
     const [lastName, setLastName] = useState("Hartinger");
@@ -105,8 +95,23 @@ const NewHoursPage = () => {
         firstName,
         lastName,
         workdayTasks
-    }
-    console.log(newWorkday)
+    };
+    // console.log(newWorkday)
+    const [workTasks, setWorkTasks] = useState([]);
+
+    // Get work tasks from db
+
+
+    // useEffect(() => {
+    //     fetch('https://localhost:7019/api/WorkTasks')
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setWorkTasks(data);
+    //         })
+    // }, [])
+
+    // console.log(workTasks)
+
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
         const isChecked = event.target.checked;
@@ -220,9 +225,10 @@ const NewHoursPage = () => {
                             </div>
                         </div>
                         {/* Collapsible components are created for each category of tasks. They hold a group of checkboxes that when checked, are added to the workDayTasks array in the employeeWorkday Object.Will create an algortithm to do this automatically as changes are made to the database */}
-                        <Collapsible taskList={workTasks.filter(t => t.category === "General Labor")} updateTaskList={handleCheckboxChange}></Collapsible>
-                        <Collapsible taskList={workTasks.filter(t => t.category === "Hardscape")} updateTaskList={handleCheckboxChange}></Collapsible>
-                        <Collapsible taskList={workTasks.filter(t => t.category === "Irrigation")} updateTaskList={handleCheckboxChange}></Collapsible>
+
+                        <Collapsible cat={"General Labor"} updateTaskList={handleCheckboxChange}></Collapsible>
+                        <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange}></Collapsible>
+                        <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange}></Collapsible>
 
                         <div className="row mt-4">
                             <div className="col-2"></div>

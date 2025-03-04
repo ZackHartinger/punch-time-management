@@ -1,7 +1,18 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 
-const Collapsible = ({ taskList, updateTaskList }) => {
-    const category = taskList[0].category;
+const Collapsible = ({ cat, updateTaskList }) => {
+    const [taskList, setTaskList] = useState([]);
+    useEffect(() => {
+        fetch(`https://localhost:7019/api/WorkTasks/category/${cat}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setTaskList(data);
+            })
+    }, [])
+
+    console.log(taskList)
+    const category = cat;
     // Remove spaces form category so that they can be used as HTML ids for collapsible funcitonality
     const trimmedCategory = category.replace(/\s+/g, "");
     const bsTarget = "#" + trimmedCategory;
