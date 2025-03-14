@@ -11,7 +11,7 @@ const Collapsible = ({ cat, updateTaskList }) => {
             })
     }, [])
 
-    console.log(taskList)
+    // console.log(taskList)
     const category = cat;
     // Remove spaces form category so that they can be used as HTML ids for collapsible funcitonality
     const trimmedCategory = category.replace(/\s+/g, "");

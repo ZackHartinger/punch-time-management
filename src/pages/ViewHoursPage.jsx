@@ -2,6 +2,7 @@ import WorkDayDisplay from "../components/WorkDayDisplay";
 import PageTitle from "../components/PageTitle";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
+import { data } from "react-router-dom";
 
 const ViewHoursPage = () => {
     const title = "View Hours";
@@ -343,7 +344,7 @@ const ViewHoursPage = () => {
         filteredWorkdays.push(workdays.filter(workday => uniqueIds[i] == workday.userId))
     }
 
-    // console.log(filteredWorkdays);
+    console.log(filteredWorkdays);
     return (
         <>
             <div className="container pt-3">

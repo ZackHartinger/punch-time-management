@@ -14,8 +14,8 @@ const WorkDayTable = ({ tableData }) => {
             <tbody>
                 {tableData.map(t =>
                     <tr className="work-day-table-row">
-                        <td scope="row">{t.Date}</td>
-                        <td>{t.CustomerName}</td>
+                        <td scope="row">{t.date}</td>
+                        <td>{t.customerName}</td>
                         <td>
                             <button className="btn btn-submit">Edit</button>
                         </td>

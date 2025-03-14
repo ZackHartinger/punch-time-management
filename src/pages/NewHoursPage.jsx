@@ -15,58 +15,6 @@ const NewHoursPage = () => {
 
     const todayString = today.toLocaleString('sv').split(' ')[0];
 
-    // Test JSON data
-    const TaskList = [
-        {
-            "category": "General Labor",
-            "description": "Moved Material"
-        },
-        {
-            "category": "General Labor",
-            "description": "Demoed Landscape"
-        },
-        {
-            "category": "General Labor",
-            "description": "Planted Plants"
-        },
-        {
-            "category": "General Labor",
-            "description": "Raked Garden Beds"
-        },
-        {
-            "category": "Hardscape",
-            "description": "Prepped Subbase"
-        },
-        {
-            "category": "Hardscape",
-            "description": "Set Wall Blocks"
-        },
-        {
-            "category": "Hardscape",
-            "description": "Set Pavers"
-        },
-        {
-            "category": "Hardscape",
-            "description": "Cut Pavers/Wall Blocks"
-        },
-        {
-            "category": "Irrigation",
-            "description": "Built Manifold"
-        },
-        {
-            "category": "Irrigation",
-            "description": "Plumbed Main Line or Zone Lines"
-        },
-        {
-            "category": "Irrigation",
-            "description": "Set Irrigation heads"
-        },
-        {
-            "category": "Irrigation",
-            "description": "Adjusted Irrigation"
-        },
-    ]
-
 
     const [firstName, setFirstName] = useState("Zack");
     const [lastName, setLastName] = useState("Hartinger");
@@ -76,8 +24,13 @@ const NewHoursPage = () => {
     const [endTime, setEndTime] = useState("16:30");
     const [lunchDuration, setLunchDuration] = useState(30);
     const [lunchTime, setLunchTime] = useState("12:00");
-    const [workdayTasks, setWorkdayTasks] = useState([]);
+    const [newWorkdayTasks, setNewWorkdayTasks] = useState([]); // newWorkdayTasks is holds the JSON strings of checked values in the collapsible components I gave a 
     const [userId, setUserId] = useState(1);
+
+    // this variable takes the JSON strings from the newWorkDayTasks array and parses them back into objects so that the entire object can be stringified without adding unwanted escape characters
+    const workDayTasks = newWorkdayTasks.map((task) =>
+        JSON.parse(task)
+    )
 
     const newWorkday = {
         customerName,
@@ -87,20 +40,16 @@ const NewHoursPage = () => {
         lunchTime,
         lunchDuration,
         userId,
-        user: {
-            userId,
-            firstName,
-            lastName
-        },
-        firstName,
-        lastName,
-        workdayTasks
+        workDayTasks
     };
-    // console.log(newWorkday)
+
     const [workTasks, setWorkTasks] = useState([]);
 
-    // Get work tasks from db
-
+    // --------------- This doesn't work ----------------------
+    // because useEffect is called after components are mounted, I fixed this issue by fetching the tasks within each component and passing a category prop to it. while this does work, it isn't the cleanest or most scalable way to accomplish what I want to
+    // ideally collapsible components will be created automatically based on changes in the database, the current solution doesn't allow for this and would require a developer (me) to mannually add a collapsible component with a new category anytime a new task 
+    // was added to the db
+    // Get work tasks from db 
 
     // useEffect(() => {
     //     fetch('https://localhost:7019/api/WorkTasks')
@@ -110,7 +59,6 @@ const NewHoursPage = () => {
     //         })
     // }, [])
 
-    // console.log(workTasks)
 
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
@@ -118,19 +66,29 @@ const NewHoursPage = () => {
 
         if (isChecked) {
             // Add value to the array
-            setWorkdayTasks([...workdayTasks, value]);
+            setNewWorkdayTasks([...newWorkdayTasks, value]);
         } else {
             // Remove value from the array
-            setWorkdayTasks(workdayTasks.filter(item => item !== value));
+            setNewWorkdayTasks(newWorkdayTasks.filter(item => item !== value));
         }
     };
 
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        fetch('https://localhost:7019/api/EmployeeWorkDays', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newWorkday)
+        })
+    }
+
     return (
         <>
-            <div className="container pt-3">
+            <div className="container pt-3 m-auto">
                 <PageTitle title={title} />
                 <div className="new-work-day-form form-group container">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         {/* First and Last name fields to be removed once authentication is added. Once authentication is added the UserId will be stroed in a hidden input for JSON construction */}
                         <div className="row mb-2">
                             <div className="col-md-2">
@@ -240,19 +198,18 @@ const NewHoursPage = () => {
                 </div >
                 {/* Test that data is being bound properly */}
                 <div>
-                    <p>FirstName: {newWorkday.firstName}</p>
-                    <p>LastName: {newWorkday.lastName}</p>
                     <p>CustomerName: {newWorkday.customerName}</p>
                     <p>Date: {newWorkday.date}</p>
                     <p>StartTime: {newWorkday.startTime}</p>
                     <p>EndTime: {newWorkday.endTime}</p>
-                    <p>LunchDuration: {newWorkday.lunchDuration}</p>
                     <p>LunchTime: {newWorkday.lunchTime}</p>
-                    <p>WorkdayTasks:
+                    <p>LunchDuration: {newWorkday.lunchDuration}</p>
+                    <p>User Id: {newWorkday.userId}</p>
+                    {/* <p>WorkdayTasks:
                         {newWorkday.workdayTasks.map(t =>
                             <>{t}</>
                         )}
-                    </p>
+                    </p> */}
                 </div>
             </div >
         </>
