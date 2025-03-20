@@ -26,7 +26,7 @@ const Navbar = () => {
                             <NavLink to='/view-hours' onClick={toggleCollapse} className="nav-link" >View Hours</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to='/new-hours' onClick={toggleCollapse} className="nav-link" >Submit Hours</NavLink>
+                            <NavLink to='/new-hours' state={{ action: 'add' }} onClick={toggleCollapse} className="nav-link" >Submit Hours</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink to='#' onClick={toggleCollapse} className="nav-link">Log in</NavLink>

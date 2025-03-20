@@ -308,7 +308,7 @@ const ViewHoursPage = () => {
             .then((data) => {
                 setWorkdays(data);
             })
-    }, [])
+    })
 
     // get workdays of specific user id
     const filterData = useCallback(() => {

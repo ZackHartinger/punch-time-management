@@ -3,7 +3,7 @@ import { useState } from 'react'
 import WorkDayCard from './WorkDayCard'
 
 const WorkDayDisplay = ({ filteredWorkdays }) => {
-
+    // console.log(filteredWorkdays)
     const workdayData = filteredWorkdays.map((employeeWorkdays, i) => {
         return (
             <div className='work-day-card p-3 rounded shadow-lg mb-4'>

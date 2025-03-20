@@ -2,9 +2,24 @@ import Collapsible from "../components/Collapsible";
 import PageTitle from "../components/PageTitle";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 const NewHoursPage = () => {
-    const title = "Submit new work day"
+    const location = useLocation();
+    const [title, setTitle] = useState();
+    useEffect(() => {
+        if (location.state.action == 'add') {
+            setTitle("Submit new work day")
+        }
+        else if (location.state.action == 'edit') {
+            setTitle("Edit work day")
+        }
+        else {
+            setTitle("error")
+        }
+    })
 
     // get and format local time
     const today = new Date();
@@ -15,7 +30,7 @@ const NewHoursPage = () => {
 
     const todayString = today.toLocaleString('sv').split(' ')[0];
 
-
+    const [employeeWorkDayId, setEmployeeWorkDayId] = useState(0);
     const [firstName, setFirstName] = useState("Zack");
     const [lastName, setLastName] = useState("Hartinger");
     const [customerName, setCustomerName] = useState();
@@ -30,9 +45,19 @@ const NewHoursPage = () => {
     // this variable takes the JSON strings from the newWorkDayTasks array and parses them back into objects so that the entire object can be stringified without adding unwanted escape characters
     const workDayTasks = newWorkdayTasks.map((task) =>
         JSON.parse(task)
-    )
+    );
+
+    // if (location.state.action == 'add') {
+    //     workDayTasks = newWorkdayTasks.map((task) =>
+    //         JSON.parse(task)
+    //     )
+    // }
+    // if (location.state.action == 'edit') {
+    //     workDayTasks = newWorkdayTasks
+    // }
 
     const newWorkday = {
+        employeeWorkDayId,
         customerName,
         date,
         startTime,
@@ -43,7 +68,37 @@ const NewHoursPage = () => {
         workDayTasks
     };
 
+    // checks the action variable to see if the user is editing a work day in which case it will populate the form fields with its values
+    useEffect(() => {
+        if (location.state.action == 'edit') {
+
+            const workDayToEdit = location.state.newWorkDay
+            // console.log(workDayToEdit)
+            const tasks = workDayToEdit.workDayTasks.map((task) =>
+                JSON.stringify(task)
+            )
+            setEmployeeWorkDayId(workDayToEdit.employeeWorkDayId)
+            setCustomerName(workDayToEdit.customerName)
+            setDate(workDayToEdit.date)
+            setStartTime(workDayToEdit.startTime)
+            setEndTime(workDayToEdit.endTime)
+            setLunchTime(workDayToEdit.lunchTime)
+            setLunchDuration(workDayToEdit.lunchDuration)
+            setNewWorkdayTasks(tasks)
+            setUserId(workDayToEdit.userId)
+        }
+    }, [])
+    console.log(newWorkday)
+    // console.log(workDayTasks)
+    // console.log(location.state.action)
+    // const tasks = location.state.newWorkDay.workDayTasks
+
+    // console.log(JSON.stringify(location.state.newWorkDay.workDayTasks))
+    // console.log(location.state.newWorkDay.workDayTasks)
     const [workTasks, setWorkTasks] = useState([]);
+    // console.log(newWorkdayTasks)
+    const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
+    // console.log(uniqueTaskIds)
 
     // --------------- This doesn't work ----------------------
     // because useEffect is called after components are mounted, I fixed this issue by fetching the tasks within each component and passing a category prop to it. while this does work, it isn't the cleanest or most scalable way to accomplish what I want to
@@ -73,20 +128,61 @@ const NewHoursPage = () => {
         }
     };
 
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        fetch('https://localhost:7019/api/EmployeeWorkDays', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newWorkday)
-        })
+        // if (location.state.action == 'add') {
+        //     newWorkday.workDayTasks = newWorkdayTasks.map((task) => {
+        //         JSON.parse(task)
+        //     })
+        // }
+        if (location.state.action == 'edit') {
+            try {
+                const response = await fetch('https://localhost:7019/api/EmployeeWorkDays/edit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newWorkday)
+                })
+
+                if (response.ok) {
+                    toast.success('Work day succesfully added!');
+                    navigate('/', { state: { showToast: true, message: 'Work day succesfully updated!' } })
+                }
+                else {
+                    toast.error('Workday failed to update');
+                }
+            }
+            catch (error) {
+                toast.error('An error occured')
+            }
+        }
+        else {
+            try {
+                const response = await fetch('https://localhost:7019/api/EmployeeWorkDays', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newWorkday)
+                })
+
+                if (response.ok) {
+                    toast.success('Work day succesfully added!');
+                    navigate('/', { state: { showToast: true, message: 'Work day succesfully added!' } })
+                }
+                else {
+                    toast.error('Workday failed to submit');
+                }
+            } catch (error) {
+                toast.error('An error occured')
+            }
+        }
     }
 
     return (
         <>
             <div className="container pt-3 m-auto">
                 <PageTitle title={title} />
+                <ToastContainer />
                 <div className="new-work-day-form form-group container">
                     <form onSubmit={handleSubmit}>
                         {/* First and Last name fields to be removed once authentication is added. Once authentication is added the UserId will be stroed in a hidden input for JSON construction */}
@@ -117,7 +213,7 @@ const NewHoursPage = () => {
                                 <label htmlFor="CustomerName" className="form-label">Customer Name</label>
                             </div>
                             <div className="col-md-6">
-                                <input htmlFor="CustomerName" className="form-control" onChange={(e) => setCustomerName(e.target.value)} />
+                                <input htmlFor="CustomerName" className="form-control" onChange={(e) => setCustomerName(e.target.value)} value={customerName} />
                             </div>
                             <div className="col-md-4">
                                 <span className="text-danger"></span>
@@ -183,10 +279,16 @@ const NewHoursPage = () => {
                             </div>
                         </div>
                         {/* Collapsible components are created for each category of tasks. They hold a group of checkboxes that when checked, are added to the workDayTasks array in the employeeWorkday Object.Will create an algortithm to do this automatically as changes are made to the database */}
-
-                        <Collapsible cat={"General Labor"} updateTaskList={handleCheckboxChange}></Collapsible>
-                        <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange}></Collapsible>
-                        <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange}></Collapsible>
+                        {
+                            uniqueTaskIds != null ?
+                                <>
+                                    <Collapsible cat={"General Labor"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                    <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                    <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                </> :
+                                <>
+                                </>
+                        }
 
                         <div className="row mt-4">
                             <div className="col-2"></div>
