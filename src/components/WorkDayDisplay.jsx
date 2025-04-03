@@ -6,7 +6,7 @@ const WorkDayDisplay = ({ filteredWorkdays }) => {
     // console.log(filteredWorkdays)
     const workdayData = filteredWorkdays.map((employeeWorkdays, i) => {
         return (
-            <div className='work-day-card p-3 rounded shadow-lg mb-4'>
+            <div className='work-day-card p-4 rounded shadow-lg mb-4'>
                 <h2 className='card-header mb-1 fw-bolder'>{employeeWorkdays[i].user.fullName}</h2>
                 <div className="work-day-details ms-0 mb-0 p-4 rounded-bottom shadow-lg">
                     {employeeWorkdays.map(workday =>

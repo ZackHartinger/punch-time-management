@@ -267,13 +267,13 @@ const HomePage = () => {
             })
         // console log
         // console.log(top5workdays)
-    })
+    }, [])
 
     const location = useLocation();
 
     useEffect(() => {
         if (location.state?.showToast) {
-            toast.success(location.state.message)
+            toast.success(location.state.message, { autoClose: 2000 })
         }
     }, [location.state])
 

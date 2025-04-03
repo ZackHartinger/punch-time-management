@@ -11,10 +11,8 @@ const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
             })
     }, [])
 
-    // console.log(selectedTasks)
-
     const category = cat;
-    // Remove spaces form category so that they can be used as HTML ids for collapsible funcitonality
+    // Remove spaces form category so that they can be used as HTML ids for collapsible functionality
     const trimmedCategory = category.replace(/\s+/g, "");
     const bsTarget = "#" + trimmedCategory;
 
@@ -28,17 +26,8 @@ const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
                     <div>
                         <ul className="">
                             {taskList.map(task =>
-                                // < li className="list-group-item p-3" >
-                                //     <label>
-                                //         {/* Need to change the value to the task id once front end is making calls to the API */}
-                                //         <input className="me-3" type="checkbox" value={JSON.stringify(task)} onChange={updateTaskList}></input>
-                                //         {task.description}
-                                //     </label>
-                                // </li>
-
-
+                                // checks if any tasks are currently selected and will render the checkbox as checked if true
                                 selectedTasks != null && selectedTasks.includes(task.workTaskId) ?
-
                                     < li className="list-group-item p-3" >
                                         <label>
                                             {/* Need to change the value to the task id once front end is making calls to the API */}

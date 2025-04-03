@@ -12,7 +12,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar navbar-expand-sm navbar-dark" style={{ backgroundColor: '#517841', color: '#fff' }}>
-            <NavLink className="navbar-brand ps-2">Punch</NavLink>
+            <NavLink className="navbar-brand ps-2"><h2>Punch</h2></NavLink>
             <button className="navbar-toggler" type='button' data-bs-toggle="collapse" data-bs-target="#my-navbar">
                 <span className="navbar-toggler-icon"></span>
             </button>
