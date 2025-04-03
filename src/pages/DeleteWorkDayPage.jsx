@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { useState } from 'react';
+import { to12Hour } from '../helpers/helpers';
 
 const DeleteWorkDayPage = () => {
     const title = "Delete work day";
@@ -53,7 +54,7 @@ const DeleteWorkDayPage = () => {
                             <h4>{workDayToDelete.customerName}</h4>
                         </div>
                         <div className="col-12 col-lg-6">
-                            <h4 className='text-decoration-underline'>{workDayToDelete.startTime} - {workDayToDelete.endTime}, {workDayToDelete.lunchDuration} minute lunch at {workDayToDelete.lunchTime}</h4>
+                            <h4 className='text-decoration-underline'>{to12Hour(workDayToDelete.startTime)} - {to12Hour(workDayToDelete.endTime)}, {workDayToDelete.lunchDuration} minute lunch at {to12Hour(workDayToDelete.lunchTime)}</h4>
                         </div>
                     </div>
                     <div className="row">

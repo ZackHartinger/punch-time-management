@@ -1,25 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 import WorkDayCard from './WorkDayCard'
+import { to12Hour } from '../helpers/helpers'
 
 const WorkDayDisplay = ({ filteredWorkdays }) => {
-    const to12Hour = (time) => {
-        const [hours, minutes] = time.split(':')
-        let formattedTime = "";
-        if (hours < 12) {
-            formattedTime = hours + ":" + minutes + " AM";
-        }
-        else if (hours == 12) {
-            formattedTime = hours + ":" + minutes + " PM";
-        }
-        else {
-            formattedTime = (hours - 12) + ":" + minutes + " PM";
-        }
-        return formattedTime;
-    }
-    // const [hours, minutes] = "16:30:00".split(':')
-    // console.log(hours)
-    // console.log(minutes)
     const workdayData = filteredWorkdays.map((employeeWorkdays, i) => {
         return (
             <div className='work-day-card p-4 rounded shadow-lg mb-4'>
