@@ -298,8 +298,8 @@ const NewHoursPage = () => {
                                             <label htmlFor="TruckName" className="form-label">Vehicle</label>
                                         </div>
                                         <div className="col-md-6">
-                                            <select className="form-select" onChange={handleSelectChange}>
-                                                <option value="0">Select a vehicle</option>
+                                            <select {...register("truckName", { required: "Please select an option to continue" })} className="form-select" onChange={handleSelectChange}>
+                                                <option value="" disabled selected>Select a vehicle</option>
                                                 <option value="T2">T2</option>
                                                 <option value="Timmy">Timmy</option>
                                                 <option value="Service Truck">Service Truck</option>
@@ -307,6 +307,7 @@ const NewHoursPage = () => {
                                             </select>
                                         </div>
                                         <div className="col-md-4">
+                                            {errors.truckName && <span className="text-danger">{errors.truckName.message}</span>}
                                         </div>
                                     </div>
                                     <div className="row mb-2">
