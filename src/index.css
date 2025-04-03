@@ -65,13 +65,17 @@ div.page-title h1 {
 
 /* ViewHoursPage styling */
 .work-day-card {
-  background-color: #517841;
-  color: #eee
+  /* border: #517841 2px solid; */
+  background-color: #91b381;
+  color: #333;
+  padding: 40px;
+  box-shadow: 20px 20px 20px #333;
 }
 
 .work-day-details {
-  margin-left: 2rem;
-  background-color: #a8bca0;
+  border: #517841 2px solid;
+  margin-left: 1rem;
+  background-color: #eee;
   color: #333;
 }
 
@@ -81,6 +85,7 @@ div.page-title h1 {
 
 .card-header {
   letter-spacing: .2rem;
+  padding: 50px;
 }
 
 /* NewHoursPage styles */

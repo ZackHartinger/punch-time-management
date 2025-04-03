@@ -4,7 +4,8 @@ import React from 'react'
 const PageTitle = (props) => {
     return (
         <div className="page-title">
-            <h1 className="mb-3">{props.title}</h1>
+            <h2 className="mb-4 mt-4">{props.title}</h2>
+            <hr></hr>
         </div>
     )
 }

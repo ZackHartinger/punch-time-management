@@ -1,8 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const WorkDayTable = ({ tableData }) => {
+    const [selectedId, setSelectedId] = useState();
+    const [selectedWorkDay, setSelectedWorkDay] = useState();
+
+    const navigate = useNavigate();
+
+    const handleEditClick = async (event) => {
+        const selectedId = event.employeeWorkDayId
+
+        const response = await fetch(`https://localhost:7019/api/EmployeeWorkDays/${selectedId}`)
+        const data = await response.json();
+        await setSelectedWorkDay(data);
+
+        navigate('/new-hours', { state: { newWorkDay: data, action: 'edit' } })
+    }
+
+    const handleDeleteClick = async (event) => {
+        const selectedId = event.employeeWorkDayId;
+        const fullName = event.user.fullName;
+
+        const response = await fetch(`https://localhost:7019/api/EmployeeWorkDays/${selectedId}`)
+        const data = await response.json();
+        await setSelectedWorkDay(data);
+
+        navigate('/delete-work-day', { state: { workDayToDelete: data, fullName: fullName, action: 'delete' } })
+    }
+
+    // console log
+    // console.log(selectedWorkDay)
     return (
-        <table class="table table-striped table-hover work-day-table">
+
+        < table className="table table-striped table-hover work-day-table" >
             <thead>
                 <tr>
                     <th scope="col">Date</th>
@@ -14,19 +45,20 @@ const WorkDayTable = ({ tableData }) => {
             <tbody>
                 {tableData.map(t =>
                     <tr className="work-day-table-row">
-                        <td scope="row">{t.Date}</td>
-                        <td>{t.CustomerName}</td>
+                        <td scope="row">{t.date}</td>
+                        <td>{t.customerName}</td>
                         <td>
-                            <button className="btn btn-submit">Edit</button>
+                            <input type='hidden' value={t.employeeWorkDayId}></input>
+                            <button className="btn btn-submit" onClick={() => handleEditClick(t)} >Edit</button>
                         </td>
                         <td>
-                            <button className="btn btn-submit">Delete</button>
+                            <button className="btn btn-submit" onClick={() => handleDeleteClick(t)}>Delete</button>
                         </td>
                     </tr>
                 )}
 
             </tbody>
-        </table>
+        </table >
     )
 }
 
