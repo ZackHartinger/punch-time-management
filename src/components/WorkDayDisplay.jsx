@@ -3,7 +3,23 @@ import { useState } from 'react'
 import WorkDayCard from './WorkDayCard'
 
 const WorkDayDisplay = ({ filteredWorkdays }) => {
-    // console.log(filteredWorkdays)
+    const to12Hour = (time) => {
+        const [hours, minutes] = time.split(':')
+        let formattedTime = "";
+        if (hours < 12) {
+            formattedTime = hours + ":" + minutes + " AM";
+        }
+        else if (hours == 12) {
+            formattedTime = hours + ":" + minutes + " PM";
+        }
+        else {
+            formattedTime = (hours - 12) + ":" + minutes + " PM";
+        }
+        return formattedTime;
+    }
+    // const [hours, minutes] = "16:30:00".split(':')
+    // console.log(hours)
+    // console.log(minutes)
     const workdayData = filteredWorkdays.map((employeeWorkdays, i) => {
         return (
             <div className='work-day-card p-4 rounded shadow-lg mb-4'>
@@ -19,9 +35,21 @@ const WorkDayDisplay = ({ filteredWorkdays }) => {
                                     <h4>{workday.customerName}</h4>
                                 </div>
                                 <div className="col-12 col-lg-6">
-                                    <h4 className='text-decoration-underline'>{workday.startTime} - {workday.endTime}, {workday.lunchDuration} minute lunch at {workday.lunchTime}</h4>
+                                    <h4 className='text-decoration-underline'>{to12Hour(workday.startTime)} - {to12Hour(workday.endTime)}, {workday.lunchDuration} minute lunch at {to12Hour(workday.lunchTime)}</h4>
                                 </div>
                             </div>
+                            {workday.truckName != null ? (
+                                <>
+                                    <div className="row mb-3">
+                                        <h4>Vehicle Name: {workday.truckName}</h4>
+                                    </div>
+                                    <div className="row mb-3">
+                                        <h4> Mileage: {workday.mileage}</h4>
+                                    </div>
+                                </>
+                            ) :
+                                (<></>)
+                            }
                             <div className="row">
                                 <h5 className='work-day-tasks col-12'>
                                     {
