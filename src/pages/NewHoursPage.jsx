@@ -11,6 +11,15 @@ const NewHoursPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [title, setTitle] = useState();
+
+    const [checked, setChecked] = useState(false);
+    const handleCheck = () => {
+        setChecked(!checked);
+    }
+    const handleSelectChange = (event) => {
+        setTruckName(event.target.value);
+    }
+
     useEffect(() => {
         if (location.state.action == 'add') {
             setTitle("Submit new work day")
@@ -42,6 +51,8 @@ const NewHoursPage = () => {
     const [endTime, setEndTime] = useState("16:30");
     const [lunchDuration, setLunchDuration] = useState(30);
     const [lunchTime, setLunchTime] = useState("12:00");
+    const [truckName, setTruckName] = useState("");
+    const [mileage, setMileage] = useState(0);
     const [newWorkdayTasks, setNewWorkdayTasks] = useState([]); // newWorkdayTasks holds the JSON strings of checked values in the collapsible components I gave a 
     const [userId, setUserId] = useState(1);
     const [workDayTaskErrorMessage, setWorkDayTaskErrorMessage] = useState("");
@@ -60,6 +71,8 @@ const NewHoursPage = () => {
         lunchTime,
         lunchDuration,
         userId,
+        truckName,
+        mileage,
         workDayTasks
     };
 
@@ -272,6 +285,46 @@ const NewHoursPage = () => {
                                     {errors.lunchTime && <span className="text-danger">{errors.lunchTime.message}</span>}
                                 </div>
                             </div>
+                            <div className="row mb-3">
+                                <div className="col-md-6">
+                                    <label htmlFor="vehichleCheck">Do you need to enter vehicle and mileage information?</label>
+                                    <input name="checkbox" className="ms-3" type="checkbox" checked={checked} onChange={handleCheck} id="vehicleCheck"></input>
+                                </div>
+                            </div>
+                            {checked == true ? (
+                                <>
+                                    <div className="row mb-2">
+                                        <div className="col-md-2">
+                                            <label htmlFor="TruckName" className="form-label">Vehicle</label>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <select {...register("truckName", { required: "Please select an option to continue" })} className="form-select" onChange={handleSelectChange}>
+                                                <option value="" disabled selected>Select a vehicle</option>
+                                                <option value="T2">T2</option>
+                                                <option value="Timmy">Timmy</option>
+                                                <option value="Service Truck">Service Truck</option>
+                                                <option value="Personal">Personal</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-md-4">
+                                            {errors.truckName && <span className="text-danger">{errors.truckName.message}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="row mb-2">
+                                        <div className="col-md-2">
+                                            <label htmlFor="Mileage" className="form-label">Mileage</label>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <input {...register("mileage", { required: "Mileage is a required field" })} type="number" className="form-control" value={mileage} onChange={(e) => setMileage(e.target.value)}></input>
+                                        </div>
+                                        <div className="col-md-4">
+                                            {errors.mileage && <span className="text-danger">{errors.mileage.message}</span>}
+                                        </div>
+                                    </div>
+                                </>
+                            ) :
+                                (<></>)
+                            }
                             <p className="text-danger">{workDayTaskErrorMessage}</p>
                             {/* Collapsible components are created for each category of tasks. They hold a group of checkboxes that when checked, are added to the workDayTasks array in the employeeWorkday Object.Will create an algortithm to do this automatically as changes are made to the database */}
                             {
