@@ -7,10 +7,11 @@ import { useState } from "react";
 
 const HomePage = () => {
     const title = "Home Page";
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     const [top5workdays, setTop5Workdays] = useState([]);
 
     useEffect(() => {
-        fetch('https://localhost:7019/api/EmployeeWorkDays/top-5')
+        fetch(baseUrl + 'EmployeeWorkDays/top-5')
             .then((res) => res.json())
             .then((data) => {
                 setTop5Workdays(data)
@@ -32,8 +33,8 @@ const HomePage = () => {
             <PageTitle title={title} />
             <ToastContainer />
             {/* The home page will display a table of the authenticated users last 5 work days and allow them to edit or delete workdays. Once hooked up the API the response will come from a get method on the server */}
-            <div className="">
-                <WorkDayTable tableData={top5workdays} />
+            <div className="table-container">
+                <WorkDayTable baseUrl={baseUrl} tableData={top5workdays} />
             </div>
         </div>
     )

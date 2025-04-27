@@ -13,6 +13,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
         <Route path='/new-hours' element={<NewHoursPage />} />
         <Route path='/view-hours' element={<ViewHoursPage />} />
         <Route path='/delete-work-day' element={<DeleteWorkDayPage />} />
+        <Route path='/log-in' element={<LogIn />} />
+        <Route path='/sign-up' element={<SignUp />} />
       </Route>
     )
   );

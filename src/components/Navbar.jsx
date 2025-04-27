@@ -11,8 +11,10 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark" style={{ backgroundColor: '#517841', color: '#fff' }}>
-            <NavLink className="navbar-brand ps-2"><h2>Punch</h2></NavLink>
+        <nav className="navbar navbar-expand-sm navbar-dark" style={{
+            backgroundColor: '#393a3d'
+        }}>
+            <NavLink className="navbar-brand ps-2"><h2 id="logo">Punch</h2></NavLink>
             <button className="navbar-toggler" type='button' data-bs-toggle="collapse" data-bs-target="#my-navbar">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -29,15 +31,15 @@ const Navbar = () => {
                             <NavLink to='/new-hours' state={{ action: 'add' }} onClick={toggleCollapse} className="nav-link" >Submit Hours</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to='#' onClick={toggleCollapse} className="nav-link">Log in</NavLink>
+                            <NavLink to='/log-in' onClick={toggleCollapse} className="nav-link">Log in</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to='#' onClick={toggleCollapse} className="nav-link">Sign up</NavLink>
+                            <NavLink to='/sign-up' onClick={toggleCollapse} className="nav-link">Sign up</NavLink>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav >
     )
 }
 

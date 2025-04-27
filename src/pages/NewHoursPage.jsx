@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 const NewHoursPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     const [title, setTitle] = useState();
 
     const [checked, setChecked] = useState(false);
@@ -22,7 +23,7 @@ const NewHoursPage = () => {
 
     useEffect(() => {
         if (location.state.action == 'add') {
-            setTitle("Submit new work day")
+            setTitle("Submit a new work day")
         }
         else if (location.state.action == 'edit') {
             setTitle("Edit work day")
@@ -143,7 +144,7 @@ const NewHoursPage = () => {
             setWorkDayTaskErrorMessage("");
             if (location.state.action == 'edit') {
                 try {
-                    const response = await fetch('https://localhost:7019/api/EmployeeWorkDays/edit', {
+                    const response = await fetch(baseUrl + 'EmployeeWorkDays/edit', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newWorkday)
@@ -163,7 +164,7 @@ const NewHoursPage = () => {
             }
             else {
                 try {
-                    const response = await fetch('https://localhost:7019/api/EmployeeWorkDays', {
+                    const response = await fetch(baseUrl + 'EmployeeWorkDays', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newWorkday)
@@ -193,9 +194,10 @@ const NewHoursPage = () => {
 
                         <form onSubmit={handleSubmit(onSubmit)}>
                             {/* First and Last name fields to be removed once authentication is added. Once authentication is added the UserId will be stroed in a hidden input for JSON construction */}
-                            <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="firstName" className="form-label">First Name</label>
+                            {/* <div className="row mb-2">
+
+                                <div className="col-md-3">
+                                    <label htmlFor="firstName" className="form-label float-md-end">First Name</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input htmlFor="firstName" className="form-control" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
@@ -205,8 +207,8 @@ const NewHoursPage = () => {
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="LastName" className="form-label">Last Name</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="LastName" className="form-label float-md-end">Last Name</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input htmlFor="LastName" className="form-control" value={lastName} onChange={(e) => setLastName(e.target.value)} />
@@ -214,54 +216,54 @@ const NewHoursPage = () => {
                                 <div className="col-md-4">
                                     <span className="text-danger"></span>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="CustomerName" className="form-label">Customer Name</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="CustomerName" className="form-label float-md-end">Customer Name</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input defaultValue={customerName} {...register("customerName", { required: "Customer name is a required field" })} htmlFor="CustomerName" className="form-control" onChange={(e) => setCustomerName(e.target.value)} value={customerName} />
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     {errors.customerName && <span className="text-danger">{errors.customerName.message}</span>}
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="Date" className="form-label">Date</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="Date" className="form-label float-md-end">Date</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input {...register("date", { required: "Date is a required field" })} value={date} type="date" htmlFor="Date" className="form-control" onChange={(e) => setDate(e.target.value)} />
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     {errors.date && <span className="text-danger">{errors.date.message}</span>}
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="StartTime" className="form-label">Start Time</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="StartTime" className="form-label float-md-end">Start Time</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input {...register("startTime", { required: "Start time is a required field" })} value={startTime} htmlFor="StartTime" className="form-control" type="time" onChange={(e) => setStartTime(e.target.value)} />
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     {errors.startTime && <span className="text-danger">{errors.startTime.message}</span>}
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="EndTime" className="form-label">End Time</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="EndTime" className="form-label float-md-end">End Time</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input {...register("endTime", { required: "End time is a required field" })} value={endTime} htmlFor="EndTime" className="form-control" type="time" onChange={(e) => setEndTime(e.target.value)} />
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     {errors.endTime && <span className="text-danger">{errors.endTime.message}</span>}
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="LunchDuration" className="form-label">Lunch Duration</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="LunchDuration" className="form-label float-md-end">Lunch Duration</label>
                                 </div>
                                 <div className="col-md-6">
                                     <select htmlFor="LunchDuration" className="form-select" onChange={(e) => setLunchDuration(e.target.value)}>
@@ -270,23 +272,23 @@ const NewHoursPage = () => {
                                         <option value={60}>1 hour</option>
                                     </select>
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <span className="text-danger"></span>
                                 </div>
                             </div>
                             <div className="row mb-2">
-                                <div className="col-md-2">
-                                    <label htmlFor="LunchTime" className="form-label">Lunch time</label>
+                                <div className="col-md-3">
+                                    <label htmlFor="LunchTime" className="form-label float-md-end">Lunch time</label>
                                 </div>
                                 <div className="col-md-6">
                                     <input {...register("lunchTime", { required: "Lunch time is a required field" })} value={lunchTime} htmlFor="LunchTime" className="form-control" type="time" onChange={(e) => setLunchTime(e.target.value)} />
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     {errors.lunchTime && <span className="text-danger">{errors.lunchTime.message}</span>}
                                 </div>
                             </div>
                             <div className="row mb-3">
-                                <div className="col-md-6">
+                                <div className="col-md-9 text-center">
                                     <label htmlFor="vehichleCheck">Do you need to enter vehicle and mileage information?</label>
                                     <input name="checkbox" className="ms-3" type="checkbox" checked={checked} onChange={handleCheck} id="vehicleCheck"></input>
                                 </div>
@@ -294,8 +296,8 @@ const NewHoursPage = () => {
                             {checked == true ? (
                                 <>
                                     <div className="row mb-2">
-                                        <div className="col-md-2">
-                                            <label htmlFor="TruckName" className="form-label">Vehicle</label>
+                                        <div className="col-md-3">
+                                            <label htmlFor="TruckName" className="form-label float-md-end">Vehicle</label>
                                         </div>
                                         <div className="col-md-6">
                                             <select {...register("truckName", { required: "Please select an option to continue" })} className="form-select" onChange={handleSelectChange}>
@@ -311,8 +313,8 @@ const NewHoursPage = () => {
                                         </div>
                                     </div>
                                     <div className="row mb-2">
-                                        <div className="col-md-2">
-                                            <label htmlFor="Mileage" className="form-label">Mileage</label>
+                                        <div className="col-md-3">
+                                            <label htmlFor="Mileage" className="form-label float-md-end">Mileage</label>
                                         </div>
                                         <div className="col-md-6">
                                             <input {...register("mileage", { required: "Mileage is a required field" })} type="number" className="form-control" value={mileage} onChange={(e) => setMileage(e.target.value)}></input>
@@ -325,21 +327,23 @@ const NewHoursPage = () => {
                             ) :
                                 (<></>)
                             }
-                            <p className="text-danger">{workDayTaskErrorMessage}</p>
+                            <p className="col-9 text-center text-danger">{workDayTaskErrorMessage}</p>
                             {/* Collapsible components are created for each category of tasks. They hold a group of checkboxes that when checked, are added to the workDayTasks array in the employeeWorkday Object.Will create an algortithm to do this automatically as changes are made to the database */}
                             {
                                 uniqueTaskIds != null ?
                                     <>
+
                                         <Collapsible cat={"General Labor"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
                                         <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
                                         <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+
                                     </> :
                                     <>
                                     </>
                             }
 
                             <div className="row mt-4 mb-5">
-                                <div className="col-2"></div>
+                                <div className="col-3"></div>
                                 <div className="col-md-4">
                                     <button className="btn btn-submit" type="submit">Submit Workday</button>
                                 </div>
