@@ -95,9 +95,9 @@ const NewHoursPage = () => {
             setUserId(workDayToEdit.userId)
         }
     }, [])
-
-    // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
     const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
+    console.log(newWorkdayTasks);
+    // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
 
     // --------------- This doesn't work ----------------------
     // because useEffect is called after components are mounted, I fixed this issue by fetching the tasks within each component and passing a category prop to it. while this does work, it isn't the cleanest or most scalable way to accomplish what I want to
