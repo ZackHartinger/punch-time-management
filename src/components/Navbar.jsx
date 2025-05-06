@@ -1,13 +1,30 @@
 import "bootstrap/dist/js/bootstrap.min.js";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../hooks/AuthProvider";
+
 
 const Navbar = () => {
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
+    const navigate = useNavigate();
     // This function collapses the navbar after a link is clicked
     const toggleCollapse = () => {
         const collapse = document.getElementById("my-navbar");
 
         collapse.classList.toggle('show');
+    }
+    const auth = useAuth();
+    const logOut = async () => {
+        const response = await fetch(baseUrl + 'AppUsers/log-out', {
+            credentials: 'include',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        if (response.ok) {
+            auth.setAuth(false);
+            navigate("/");
+            console.log("yo")
+        }
     }
 
     return (
@@ -31,11 +48,18 @@ const Navbar = () => {
                             <NavLink to='/new-hours' state={{ action: 'add' }} onClick={toggleCollapse} className="nav-link" >Submit Hours</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to='/log-in' onClick={toggleCollapse} className="nav-link">Log in</NavLink>
-                        </li>
-                        <li className="nav-item">
                             <NavLink to='/sign-up' onClick={toggleCollapse} className="nav-link">Sign up</NavLink>
                         </li>
+                        {
+                            auth.auth == false ?
+                                <li className="nav-item">
+                                    <NavLink to='/log-in' onClick={toggleCollapse} className="nav-link">Log in</NavLink>
+                                </li> :
+                                <li className="nav-item">
+                                    <button onClick={() => { toggleCollapse(); logOut(); }} className="nav-link">Log Out</button>
+                                </li>
+
+                        }
                     </ul>
                 </div>
             </div>

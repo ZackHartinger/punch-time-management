@@ -2,11 +2,19 @@ import React from 'react'
 import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import Cookies from 'js-cookie';
+import { useAuth } from '../hooks/AuthProvider';
 
 const LogIn = () => {
     const title = "Log In"
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const credentials = {
+        email,
+        password
+    }
     const {
         register,
         handleSubmit,
@@ -14,10 +22,32 @@ const LogIn = () => {
         formState: { errors },
     } = useForm();
 
+    const auth = useAuth();
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch(baseUrl + 'AppUsers/log-in', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credentials),
+                credentials: 'include'
+            })
+            if (response.ok) {
+                auth.setAuth(true);
+                console.log("yo")
+            }
+        }
+        catch (error) {
+            toast.error('An error occured while attempting to log in.')
+        }
+    }
+
     return (
         <div className='container mt-3 m-auto'>
             <PageTitle title={title} />
-            <form onSubmit={handleSubmit()}>
+            <ToastContainer />
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row mb-2">
                     <div className="col-md-3">
                         <label htmlFor="Email" className="form-label float-md-end">Email</label>
@@ -26,7 +56,7 @@ const LogIn = () => {
                         <input  {...register("email", { required: "Email is a required field" })} htmlFor="Email" className="form-control" onChange={(e) => setEmail(e.target.value)} value={email} />
                     </div>
                     <div className="col-md-3">
-                        {errors.customerName && <span className="text-danger">{errors.customerName.message}</span>}
+                        {errors.email && <span className="text-danger">{errors.email.message}</span>}
                     </div>
                 </div>
                 <div className="row mb-2">
@@ -37,7 +67,7 @@ const LogIn = () => {
                         <input {...register("password", { required: "Password is a required field" })} value={password} htmlFor="Password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className="col-md-3">
-                        {errors.date && <span className="text-danger">{errors.date.message}</span>}
+                        {errors.password && <span className="text-danger">{errors.password.message}</span>}
                     </div>
                 </div>
                 <div className="row mt-4 mb-5">
