@@ -22,11 +22,11 @@ const Navbar = () => {
         })
         if (response.ok) {
             auth.setAuth(false);
+            auth.setUser(null);
             navigate("/");
-            console.log("yo")
         }
     }
-
+    console.log(auth.auth)
     return (
         <nav className="navbar navbar-expand-sm navbar-dark" style={{
             backgroundColor: '#393a3d'

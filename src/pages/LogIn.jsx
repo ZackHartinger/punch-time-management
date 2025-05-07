@@ -3,7 +3,7 @@ import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthProvider';
 
 const LogIn = () => {
@@ -22,7 +22,9 @@ const LogIn = () => {
         formState: { errors },
     } = useForm();
 
+    const navigate = useNavigate();
     const auth = useAuth();
+
     const onSubmit = async (data) => {
         try {
             const response = await fetch(baseUrl + 'AppUsers/log-in', {
@@ -33,16 +35,17 @@ const LogIn = () => {
                 body: JSON.stringify(credentials),
                 credentials: 'include'
             })
+            const json = await response.json();
             if (response.ok) {
                 auth.setAuth(true);
-                console.log("yo")
+                auth.setUser(json);
+                navigate("/");
             }
         }
         catch (error) {
             toast.error('An error occured while attempting to log in.')
         }
     }
-
     return (
         <div className='container mt-3 m-auto'>
             <PageTitle title={title} />
