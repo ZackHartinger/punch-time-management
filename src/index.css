@@ -131,9 +131,6 @@ div.page-title h1 {
 }
 
 /* NewHoursPage styles */
-label {
-  /* float: right; */
-}
 
 button.collapsible-btn {
   background-color: #393a3d;
@@ -174,4 +171,24 @@ button.btn-submit:hover {
   color: #eee;
   transform: translateY(-5px);
   /* box-shadow: 0, 0, 0, .3; */
+}
+
+/* Spinner styling and animations */
+.spinner {
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  border: 5px #acabab solid;
+  border-top: 5px #333 solid;
+  animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

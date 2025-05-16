@@ -6,36 +6,24 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../hooks/AuthProvider";
 
 const NewHoursPage = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
+    // STATES
     const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     const [title, setTitle] = useState();
-
-    const [checked, setChecked] = useState(false);
-    const handleCheck = () => {
-        setChecked(!checked);
-    }
-    const handleSelectChange = (event) => {
-        setTruckName(event.target.value);
-    }
-
-    useEffect(() => {
-        if (location.state.action == 'add') {
-            setTitle("Submit a new work day")
-        }
-        else if (location.state.action == 'edit') {
-            setTitle("Edit work day")
-        }
-        else {
-            setTitle("error")
-        }
-    })
+    const location = useLocation();
+    const navigate = useNavigate();
+    const auth = useAuth();
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
 
     // get and format local time
     const today = new Date();
-
     const day = today.getDate();
     const month = today.getMonth() + 1;
     const year = today.getFullYear();
@@ -44,8 +32,6 @@ const NewHoursPage = () => {
 
     // Form variables
     const [employeeWorkDayId, setEmployeeWorkDayId] = useState(0);
-    const [firstName, setFirstName] = useState("Zack");
-    const [lastName, setLastName] = useState("Hartinger");
     const [customerName, setCustomerName] = useState();
     const [date, setDate] = useState(todayString);
     const [startTime, setStartTime] = useState("08:00");
@@ -55,13 +41,20 @@ const NewHoursPage = () => {
     const [truckName, setTruckName] = useState("");
     const [mileage, setMileage] = useState(0);
     const [newWorkdayTasks, setNewWorkdayTasks] = useState([]); // newWorkdayTasks holds the JSON strings of checked values in the collapsible components I gave a 
-    const [userId, setUserId] = useState(1);
+    const [userId, setUserId] = useState(auth.user.id);
     const [workDayTaskErrorMessage, setWorkDayTaskErrorMessage] = useState("");
+    const [checked, setChecked] = useState(false);
+
+    const [workTasks, setWorkTasks] = useState([]);
+    const categories = [...new Set(workTasks.map(workTask => workTask.category))]
 
     // this variable takes the JSON strings from the newWorkDayTasks array and parses them back into objects so that the entire object can be stringified without adding unwanted escape characters
     const workDayTasks = newWorkdayTasks.map((task) =>
         JSON.parse(task)
     );
+
+    // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
+    const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
 
     const newWorkday = {
         employeeWorkDayId,
@@ -76,6 +69,20 @@ const NewHoursPage = () => {
         mileage,
         workDayTasks
     };
+
+
+    // ONMOUNT
+    useEffect(() => {
+        if (location.state.action == 'add') {
+            setTitle("Submit a new work day")
+        }
+        else if (location.state.action == 'edit') {
+            setTitle("Edit work day")
+        }
+        else {
+            setTitle("error")
+        }
+    })
 
     // checks the action variable to see if the user is editing a work day in which case it will populate the form fields with its values
     useEffect(() => {
@@ -96,23 +103,25 @@ const NewHoursPage = () => {
         }
     }, [])
 
-    // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
-    const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
 
-    // --------------- This doesn't work ----------------------
-    // because useEffect is called after components are mounted, I fixed this issue by fetching the tasks within each component and passing a category prop to it. while this does work, it isn't the cleanest or most scalable way to accomplish what I want to
-    // ideally collapsible components will be created automatically based on changes in the database, the current solution doesn't allow for this and would require a developer (me) to mannually add a collapsible component with a new category anytime a new task 
-    // was added to the db
-    // Get work tasks from db 
+    // METHODS
+    const handleCheck = () => {
+        setChecked(!checked);
+    }
+    const handleSelectChange = (event) => {
+        setTruckName(event.target.value);
+    }
 
-    // useEffect(() => {
-    //     fetch('https://localhost:7019/api/WorkTasks')
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setWorkTasks(data);
-    //         })
-    // }, [])
-
+    const getWorkTasks = async () => {
+        const response = await fetch(baseUrl + "WorkTasks", {
+            credentials: "include"
+        })
+        const json = await response.json();
+        if (response.ok) {
+            setWorkTasks(json);
+        }
+    }
+    getWorkTasks();
 
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
@@ -127,15 +136,6 @@ const NewHoursPage = () => {
         }
     };
 
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm();
-
-    const watchCustomerName = watch("customerName");
-
     const onSubmit = async (data) => {
         if (newWorkday.workDayTasks.length == 0) {
             setWorkDayTaskErrorMessage("You must select at least one task to submit a workday");
@@ -147,7 +147,8 @@ const NewHoursPage = () => {
                     const response = await fetch(baseUrl + 'EmployeeWorkDays/edit', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newWorkday)
+                        body: JSON.stringify(newWorkday),
+                        credentials: "include"
                     })
 
                     if (response.ok) {
@@ -167,7 +168,8 @@ const NewHoursPage = () => {
                     const response = await fetch(baseUrl + 'EmployeeWorkDays', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newWorkday)
+                        body: JSON.stringify(newWorkday),
+                        credentials: "include"
                     })
 
                     if (response.ok) {
@@ -183,7 +185,7 @@ const NewHoursPage = () => {
             }
         }
     }
-    console.log(location.state.action)
+
     return (
         <>
             <div className="container pt-3 m-auto">
@@ -193,36 +195,12 @@ const NewHoursPage = () => {
                     {location.state.action == 'edit' && customerName != undefined || location.state.action == 'add' ?
 
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            {/* First and Last name fields to be removed once authentication is added. Once authentication is added the UserId will be stroed in a hidden input for JSON construction */}
-                            {/* <div className="row mb-2">
-
-                                <div className="col-md-3">
-                                    <label htmlFor="firstName" className="form-label float-md-end">First Name</label>
-                                </div>
-                                <div className="col-md-6">
-                                    <input htmlFor="firstName" className="form-control" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                                </div>
-                                <div className="col-md-4">
-                                    <span className="text-danger"></span>
-                                </div>
-                            </div>
-                            <div className="row mb-2">
-                                <div className="col-md-3">
-                                    <label htmlFor="LastName" className="form-label float-md-end">Last Name</label>
-                                </div>
-                                <div className="col-md-6">
-                                    <input htmlFor="LastName" className="form-control" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                                </div>
-                                <div className="col-md-4">
-                                    <span className="text-danger"></span>
-                                </div>
-                            </div> */}
                             <div className="row mb-2">
                                 <div className="col-md-3">
                                     <label htmlFor="CustomerName" className="form-label float-md-end">Customer Name</label>
                                 </div>
                                 <div className="col-md-6">
-                                    <input defaultValue={customerName} {...register("customerName", { required: "Customer name is a required field" })} htmlFor="CustomerName" className="form-control" onChange={(e) => setCustomerName(e.target.value)} value={customerName} />
+                                    <input defaultValue={customerName} {...register("customerName", { required: "Customer name is a required field" })} autoComplete="off" htmlFor="CustomerName" className="form-control" onChange={(e) => setCustomerName(e.target.value)} value={customerName} />
                                 </div>
                                 <div className="col-md-3">
                                     {errors.customerName && <span className="text-danger">{errors.customerName.message}</span>}
@@ -330,12 +308,13 @@ const NewHoursPage = () => {
                             <p className="col-9 text-center text-danger">{workDayTaskErrorMessage}</p>
                             {/* Collapsible components are created for each category of tasks. They hold a group of checkboxes that when checked, are added to the workDayTasks array in the employeeWorkday Object.Will create an algortithm to do this automatically as changes are made to the database */}
                             {
-                                uniqueTaskIds != null ?
+                                uniqueTaskIds != null || categories != null ?
                                     <>
-
-                                        <Collapsible cat={"General Labor"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
-                                        <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
-                                        <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                        {categories.map(category =>
+                                            <Collapsible cat={category} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                        )}
+                                        {/* <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                        <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible> */}
 
                                     </> :
                                     <>

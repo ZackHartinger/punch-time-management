@@ -1,12 +1,15 @@
 import WorkDayDisplay from "../components/WorkDayDisplay";
 import PageTitle from "../components/PageTitle";
+import Spinner from "../components/Spinner";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { data } from "react-router-dom";
+import { useLoading } from "../hooks/LoadingProvider";
 
 const ViewHoursPage = () => {
     const title = "View Hours";
     const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
+    // const loading = useLoading();
     const [checked, setChecked] = useState(false);
     const handleCheck = () => {
         setChecked(!checked);
@@ -20,8 +23,6 @@ const ViewHoursPage = () => {
 
     const today = new Date;
     const todayString = today.toLocaleString('sv').split(' ')[0];
-    console.log(todayString)
-
 
     const tomorrow = new Date(new Date(today).setDate(today.getDate() + 5))
     const [workdays, setWorkdays] = useState([]);
@@ -44,7 +45,9 @@ const ViewHoursPage = () => {
 
     // get users
     useEffect(() => {
-        fetch('Users')
+        fetch(baseUrl + 'AppUsers', {
+            credentials: "include"
+        })
             .then((res) => res.json())
             .then((data) => {
                 setUsers(data);
@@ -55,11 +58,15 @@ const ViewHoursPage = () => {
 
     // get workdays from server
     useEffect(() => {
+        // loading.setIsLoading(true)
         fetch(baseUrl + 'EmployeeWorkDays')
             .then((res) => res.json())
             .then((data) => {
                 setWorkdays(data);
             })
+        // .finally(() => {
+        //     loading.setIsLoading(false);
+        // })
     }, [])
 
     // get workdays of specific user id
@@ -111,7 +118,7 @@ const ViewHoursPage = () => {
                             <select className="form-select" onChange={handleSelectChange}>
                                 <option value="0">Select an employee</option>
                                 {users.map(user =>
-                                    <option value={user.userId}>{user.fullName}</option>
+                                    <option value={user.id}>{user.fullName}</option>
                                 )
                                 }
                             </select>
@@ -153,6 +160,10 @@ const ViewHoursPage = () => {
             </div>
             {/* Container for the WorkDayDisplay component */}
             <div className="work-data container">
+                {/* {loading.isLoading == true ?
+                    <Spinner /> :
+                    <WorkDayDisplay filteredWorkdays={filteredWorkdays} />
+                } */}
                 <WorkDayDisplay filteredWorkdays={filteredWorkdays} />
             </div>
         </>

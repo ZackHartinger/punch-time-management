@@ -13,7 +13,8 @@ import viteLogo from '/vite.svg'
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import AuthProvider from './hooks/AuthProvider';
-import PrivateRoutes from './components/PrivateRoutes'
+import PrivateRoutes from './components/PrivateRoutes';
+// import LoadingProvider from './hooks/LoadingProvider';
 
 
 function App() {

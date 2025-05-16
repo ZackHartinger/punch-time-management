@@ -56,7 +56,7 @@ const LogIn = () => {
                         <label htmlFor="Email" className="form-label float-md-end">Email</label>
                     </div>
                     <div className="col-md-6">
-                        <input  {...register("email", { required: "Email is a required field" })} htmlFor="Email" className="form-control" onChange={(e) => setEmail(e.target.value)} value={email} />
+                        <input  {...register("email", { required: "Email is a required field" })} autoComplete="off" htmlFor="Email" className="form-control" onChange={(e) => setEmail(e.target.value)} value={email} />
                     </div>
                     <div className="col-md-3">
                         {errors.email && <span className="text-danger">{errors.email.message}</span>}
@@ -67,7 +67,7 @@ const LogIn = () => {
                         <label htmlFor="Password" className="form-label float-md-end">Password</label>
                     </div>
                     <div className="col-md-6">
-                        <input {...register("password", { required: "Password is a required field" })} value={password} htmlFor="Password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
+                        <input {...register("password", { required: "Password is a required field" })} type='password' autoComplete='off' value={password} htmlFor="Password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className="col-md-3">
                         {errors.password && <span className="text-danger">{errors.password.message}</span>}

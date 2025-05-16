@@ -4,22 +4,43 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
-import Cookies from "js-cookie";
+import { useAuth } from "../hooks/AuthProvider";
+import Spinner from "../components/Spinner";
+import { useLoading } from "../hooks/LoadingProvider";
 
 const HomePage = () => {
     const title = "Home Page";
     const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
-    const [top5workdays, setTop5Workdays] = useState([]);
-    useEffect(() => {
-        fetch(baseUrl + 'EmployeeWorkDays/top-5', {
-            credentials: "include"
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setTop5Workdays(data)
-            })
-    }, [])
     const location = useLocation();
+    const loading = useLoading();
+    const auth = useAuth();
+    const [top5workdays, setTop5Workdays] = useState([]);
+
+    useEffect(() => {
+        const getTopFive = async () => {
+            // loading.setIsLoading(true);
+            try {
+                const response = await fetch(baseUrl + `EmployeeWorkDays/top-5/${auth.user.id}`, {
+                    credentials: "include"
+                })
+                const json = await response.json();
+                if (response.ok) {
+                    console.log(json)
+                    setTop5Workdays(json);
+                }
+            }
+            // setTimeout(async () => {
+            //     finally {
+            //         loading.setIsLoading(false)
+            //     }
+            // }, 1000);
+            catch (error) {
+                console.log(error);
+            }
+        }
+
+        getTopFive();
+    }, [])
 
     useEffect(() => {
         if (location.state?.showToast) {
@@ -27,15 +48,24 @@ const HomePage = () => {
         }
     }, [location.state])
 
+    // if (loading.isLoading) {
+    //     return <Spinner />
+    // }
+
     return (
-        <div className="container pt-3">
-            <PageTitle title={title} />
-            <ToastContainer />
-            {/* The home page will display a table of the authenticated users last 5 work days and allow them to edit or delete workdays. Once hooked up the API the response will come from a get method on the server */}
-            <div className="table-container">
-                <WorkDayTable baseUrl={baseUrl} tableData={top5workdays} />
+        <>
+            <div className="container pt-3">
+                <PageTitle title={title} />
+                <ToastContainer />
+                {/* The home page will display a table of the authenticated users last 5 work days and allow them to edit or delete workdays. Once hooked up the API the response will come from a get method on the server */}
+                <div className="table-container">
+                    {/* {loading.isLoading == true ? <Spinner /> :
+                        <WorkDayTable baseUrl={baseUrl} tableData={top5workdays} />
+                    } */}
+                    <WorkDayTable baseUrl={baseUrl} tableData={top5workdays} />
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

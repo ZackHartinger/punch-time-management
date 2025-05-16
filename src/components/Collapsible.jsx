@@ -33,7 +33,7 @@ const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
                                     < li className="list-group-item p-3" >
                                         <label>
                                             {/* Need to change the value to the task id once front end is making calls to the API */}
-                                            <input className="me-3" type="checkbox" checked="true" value={JSON.stringify(task)} onChange={updateTaskList}></input>
+                                            <input className="me-3" type="checkbox" checked={true} value={JSON.stringify(task)} onChange={updateTaskList}></input>
                                             {task.description}
                                         </label>
                                     </li> :
