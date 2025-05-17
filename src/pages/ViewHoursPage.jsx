@@ -103,7 +103,6 @@ const ViewHoursPage = () => {
         filteredWorkdays.push(workdays.filter(workday => uniqueIds[i] == workday.userId))
     }
 
-    console.log(filteredWorkdays);
     return (
         <>
             <div className="container pt-3">
@@ -118,7 +117,7 @@ const ViewHoursPage = () => {
                             <select className="form-select" onChange={handleSelectChange}>
                                 <option value="0">Select an employee</option>
                                 {users.map(user =>
-                                    <option value={user.id}>{user.fullName}</option>
+                                    <option value={user.id} key={user.id}>{user.fullName}</option>
                                 )
                                 }
                             </select>

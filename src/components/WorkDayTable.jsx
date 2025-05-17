@@ -44,7 +44,7 @@ const WorkDayTable = ({ tableData, baseUrl }) => {
             </thead>
             <tbody>
                 {tableData.map(t =>
-                    <tr className="work-day-table-row">
+                    <tr className="work-day-table-row" key={t.employeeWorkDayId}>
                         <td scope="row">{t.date}</td>
                         <td>{t.customerName}</td>
                         <td>

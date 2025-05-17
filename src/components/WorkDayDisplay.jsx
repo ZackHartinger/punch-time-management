@@ -4,27 +4,19 @@ import WorkDayCard from './WorkDayCard'
 import { to12Hour } from '../helpers/helpers'
 
 const WorkDayDisplay = ({ filteredWorkdays }) => {
-    console.log(filteredWorkdays)
-    const workdayData = filteredWorkdays.map((employeeWorkdays) => {
+    const workdayData = filteredWorkdays.map((employeeWorkdays, index) => {
         return (
-            <div className='work-day-card rounded mb-4'>
+            <div className='work-day-card rounded mb-4' key={index}>
                 <h2 className='card-header mb-1 fw-bolder rounded-top'>{employeeWorkdays[0].user.fullName}</h2>
                 <div className="work-day-details ms-0 mb-0 p-4 rounded-bottom ">
                     {employeeWorkdays.map(workday =>
-                        <>
-
+                        <div key={workday.employeeWorkDayId}>
                             <div className='work-day'>
                                 <div className="row mb-3">
                                     <div className="col-12 ">
                                         <h4 className='fw-bolder date'>{workday.date}</h4>
                                         <p className='float-end time'>{to12Hour(workday.startTime)} - {to12Hour(workday.endTime)}, {workday.lunchDuration} minute lunch at {to12Hour(workday.lunchTime)}</p>
                                     </div>
-                                    {/* <div className="col-12 col-lg-3">
-                                <h4>{workday.customerName}</h4>
-                            </div>
-                            <div className="col-12 col-lg-6">
-                                <h4 className='text-decoration-underline'>{to12Hour(workday.startTime)} - {to12Hour(workday.endTime)}, {workday.lunchDuration} minute lunch at {to12Hour(workday.lunchTime)}</h4>
-                            </div> */}
                                 </div>
                                 <div className="row mb-3">
                                     <h4>{workday.customerName}</h4>
@@ -58,7 +50,7 @@ const WorkDayDisplay = ({ filteredWorkdays }) => {
                                 </div>
                             </div>
                             <hr></hr>
-                        </>
+                        </div>
                     )}
                 </div>
             </div>

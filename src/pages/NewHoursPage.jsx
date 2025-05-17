@@ -32,7 +32,7 @@ const NewHoursPage = () => {
 
     // Form variables
     const [employeeWorkDayId, setEmployeeWorkDayId] = useState(0);
-    const [customerName, setCustomerName] = useState();
+    const [customerName, setCustomerName] = useState("");
     const [date, setDate] = useState(todayString);
     const [startTime, setStartTime] = useState("08:00");
     const [endTime, setEndTime] = useState("16:30");
@@ -246,7 +246,7 @@ const NewHoursPage = () => {
                                 <div className="col-md-6">
                                     <select htmlFor="LunchDuration" className="form-select" onChange={(e) => setLunchDuration(e.target.value)}>
                                         <option value={0}>No Lunch</option>
-                                        <option selected value={30}>30 minutes</option>
+                                        <option value={30}>30 minutes</option>
                                         <option value={60}>1 hour</option>
                                     </select>
                                 </div>
@@ -310,11 +310,12 @@ const NewHoursPage = () => {
                             {
                                 uniqueTaskIds != null || categories != null ?
                                     <>
-                                        {categories.map(category =>
+                                        {/* {categories.map(category =>
                                             <Collapsible cat={category} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
-                                        )}
-                                        {/* <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
-                                        <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible> */}
+                                        )} */}
+                                        <Collapsible cat={"General Labor"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                        <Collapsible cat={"Hardscape"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                        <Collapsible cat={"Irrigation"} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
 
                                     </> :
                                     <>
