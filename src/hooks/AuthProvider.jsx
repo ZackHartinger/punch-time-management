@@ -8,7 +8,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     const [auth, setAuth] = useState(false);
-    const [user, setUser] = useState();
+    const [user, setUser] = useState("");
 
     const getCurrentUser = async () => {
         const response = await fetch(baseUrl + 'AppUsers/is-authenticated', {
@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
             setAuth(true)
         }
         else {
-            setUser()
+            setUser("")
             setAuth(false)
         }
     }

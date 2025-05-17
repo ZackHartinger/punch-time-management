@@ -15,6 +15,7 @@ const Navbar = () => {
         collapse.classList.toggle('show');
     }
     const auth = useAuth();
+    const userName = auth.user.fullName;
     const logOut = async () => {
         const response = await fetch(baseUrl + 'AppUsers/log-out', {
             credentials: 'include',
@@ -40,7 +41,7 @@ const Navbar = () => {
                     <ul className="navbar-nav text-center ms-auto">
                         {auth.auth == true ?
                             <li>
-                                <h2 className="navbar-brand nav-link">Hello, {auth.user.fullName}</h2>
+                                <h2 className="navbar-brand nav-link">Hello, {userName}</h2>
                             </li> :
                             <></>
                         }

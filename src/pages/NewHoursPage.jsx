@@ -135,7 +135,7 @@ const NewHoursPage = () => {
             setNewWorkdayTasks(newWorkdayTasks.filter(item => item !== value));
         }
     };
-
+    console.log(JSON.stringify(newWorkday))
     const onSubmit = async (data) => {
         if (newWorkday.workDayTasks.length == 0) {
             setWorkDayTaskErrorMessage("You must select at least one task to submit a workday");
