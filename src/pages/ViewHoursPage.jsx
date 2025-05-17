@@ -4,7 +4,7 @@ import Spinner from "../components/Spinner";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { data } from "react-router-dom";
-import { useLoading } from "../hooks/LoadingProvider";
+// import { useLoading } from "../hooks/LoadingProvider";
 
 const ViewHoursPage = () => {
     const title = "View Hours";

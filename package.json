@@ -1,7 +1,7 @@
 {
   "name": "punch-time-management",
   "private": true,
-  "proxy": "https://localhost:7098",
+  "proxy": "https://localhost",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

@@ -2,7 +2,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../hooks/AuthProvider";
-import { useLoading } from "../hooks/LoadingProvider";
+// import { useLoading } from "../hooks/LoadingProvider";
 
 
 const Navbar = () => {
