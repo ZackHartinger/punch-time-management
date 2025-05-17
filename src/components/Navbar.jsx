@@ -15,7 +15,7 @@ const Navbar = () => {
         collapse.classList.toggle('show');
     }
     const auth = useAuth();
-    const userName = auth.user.fullName;
+    // const userName = auth.user.fullName;
     const logOut = async () => {
         const response = await fetch(baseUrl + 'AppUsers/log-out', {
             credentials: 'include',
@@ -28,6 +28,7 @@ const Navbar = () => {
             navigate("/");
         }
     }
+    console.log(auth.user)
     return (
         <nav className="navbar navbar-expand-sm navbar-dark" style={{
             backgroundColor: '#393a3d'
@@ -39,9 +40,9 @@ const Navbar = () => {
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="my-navbar">
                     <ul className="navbar-nav text-center ms-auto">
-                        {auth.auth == true ?
+                        {auth.user !== null ?
                             <li>
-                                <h2 className="navbar-brand nav-link">Hello, {userName}</h2>
+                                <h2 className="navbar-brand nav-link">Hello, {auth.user.fullName}</h2>
                             </li> :
                             <></>
                         }

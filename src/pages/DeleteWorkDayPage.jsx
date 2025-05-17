@@ -15,7 +15,7 @@ const DeleteWorkDayPage = () => {
     const fullName = location.state.fullName;
     const workDayToDelete = location.state.workDayToDelete;
     const employeeWorkDayId = workDayToDelete.employeeWorkDayId;
-    console.log(employeeWorkDayId)
+
     const handleDelete = async () => {
         try {
             const response = await fetch(baseUrl + `EmployeeWorkDays/${employeeWorkDayId}`, {

@@ -9,21 +9,214 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/AuthProvider";
 
 const NewHoursPage = () => {
-    // STATES
-    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
-    const [title, setTitle] = useState();
+    // // STATES
+    // const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
+    // const [title, setTitle] = useState();
+    // const location = useLocation();
+    // const navigate = useNavigate();
+    // const auth = useAuth();
+    // const {
+    //     register,
+    //     handleSubmit,
+    //     watch,
+    //     formState: { errors },
+    // } = useForm();
+
+    // // get and format local time
+    // const today = new Date();
+    // const day = today.getDate();
+    // const month = today.getMonth() + 1;
+    // const year = today.getFullYear();
+
+    // const todayString = today.toLocaleString('sv').split(' ')[0];
+
+    // // Form variables
+    // const [employeeWorkDayId, setEmployeeWorkDayId] = useState(0);
+    // const [customerName, setCustomerName] = useState("");
+    // const [date, setDate] = useState(todayString);
+    // const [startTime, setStartTime] = useState("08:00");
+    // const [endTime, setEndTime] = useState("16:30");
+    // const [lunchDuration, setLunchDuration] = useState(30);
+    // const [lunchTime, setLunchTime] = useState("12:00");
+    // const [truckName, setTruckName] = useState("");
+    // const [mileage, setMileage] = useState(0);
+    // const [newWorkdayTasks, setNewWorkdayTasks] = useState([]); // newWorkdayTasks holds the JSON strings of checked values in the collapsible components I gave a 
+    // const [userId, setUserId] = useState(auth.user.id);
+    // const [workDayTaskErrorMessage, setWorkDayTaskErrorMessage] = useState("");
+    // const [checked, setChecked] = useState(false);
+
+    // const [workTasks, setWorkTasks] = useState([]);
+    // const categories = [...new Set(workTasks.map(workTask => workTask.category))]
+
+    // // this variable takes the JSON strings from the newWorkDayTasks array and parses them back into objects so that the entire object can be stringified without adding unwanted escape characters
+    // const workDayTasks = newWorkdayTasks.map((task) =>
+    //     JSON.parse(task)
+    // );
+
+    // // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
+    // const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
+
+    // const newWorkday = {
+    //     employeeWorkDayId,
+    //     customerName,
+    //     date,
+    //     startTime,
+    //     endTime,
+    //     lunchTime,
+    //     lunchDuration,
+    //     userId,
+    //     truckName,
+    //     mileage,
+    //     workDayTasks
+    // };
+
+
+    // // ONMOUNT
+    // useEffect(() => {
+    //     if (location.state.action == 'add') {
+    //         setTitle("Submit a new work day")
+    //     }
+    //     else if (location.state.action == 'edit') {
+    //         setTitle("Edit work day")
+    //     }
+    //     else {
+    //         setTitle("error")
+    //     }
+    // })
+
+    // // checks the action variable to see if the user is editing a work day in which case it will populate the form fields with its values
+    // useEffect(() => {
+    //     if (location.state.action == 'edit') {
+    //         const workDayToEdit = location.state.newWorkDay
+    //         const tasks = workDayToEdit.workDayTasks.map((task) =>
+    //             JSON.stringify(task)
+    //         )
+    //         setEmployeeWorkDayId(workDayToEdit.employeeWorkDayId)
+    //         setCustomerName(workDayToEdit.customerName)
+    //         setDate(workDayToEdit.date)
+    //         setStartTime(workDayToEdit.startTime)
+    //         setEndTime(workDayToEdit.endTime)
+    //         setLunchTime(workDayToEdit.lunchTime)
+    //         setLunchDuration(workDayToEdit.lunchDuration)
+    //         setNewWorkdayTasks(tasks)
+    //         setUserId(workDayToEdit.userId)
+    //     }
+    // }, [])
+
+
+    // // METHODS
+    // const handleCheck = () => {
+    //     setChecked(!checked);
+    // }
+    // const handleSelectChange = (event) => {
+    //     setTruckName(event.target.value);
+    // }
+
+    // const getWorkTasks = async () => {
+    //     const response = await fetch(baseUrl + "WorkTasks", {
+    //         credentials: "include"
+    //     })
+    //     const json = await response.json();
+    //     if (response.ok) {
+    //         setWorkTasks(json);
+    //     }
+    // }
+    // I BELIEVE THE PROBLEM IS WITH THIS LINE RIGHT HERE THE METHOD SHOULD BE CALLED IN A USEEFFECT HOOK WITH AN EMPTY DEPENDENCY ARRAY INSTEAD OF ON ITS OWN WHIHC IS TRIGGERING CONSTANTLY CAUSING THE SERVER TO CRASH
+    // getWorkTasks();
+
+    // const handleCheckboxChange = (event) => {
+    //     const value = event.target.value;
+    //     const isChecked = event.target.checked;
+
+    //     if (isChecked) {
+    //         // Add value to the array
+    //         setNewWorkdayTasks([...newWorkdayTasks, value]);
+    //     } else {
+    //         // Remove value from the array
+    //         setNewWorkdayTasks(newWorkdayTasks.filter(item => item !== value));
+    //     }
+    // };
+    // console.log(JSON.stringify(newWorkday))
+    // const onSubmit = async (data) => {
+    //     if (newWorkday.workDayTasks.length == 0) {
+    //         setWorkDayTaskErrorMessage("You must select at least one task to submit a workday");
+    //     }
+    //     else {
+    //         setWorkDayTaskErrorMessage("");
+    //         if (location.state.action == 'edit') {
+    //             try {
+    //                 const response = await fetch(baseUrl + 'EmployeeWorkDays/edit', {
+    //                     method: 'POST',
+    //                     headers: { 'Content-Type': 'application/json' },
+    //                     body: JSON.stringify(newWorkday),
+    //                     credentials: "include"
+    //                 })
+
+    //                 if (response.ok) {
+    //                     toast.success('Work day succesfully added!', { autoClose: 3000 });
+    //                     navigate('/', { state: { showToast: true, message: 'Work day succesfully updated!', autoClose: 3000 } })
+    //                 }
+    //                 else {
+    //                     toast.error('Workday failed to update');
+    //                 }
+    //             }
+    //             catch (error) {
+    //                 toast.error('An error occured')
+    //             }
+    //         }
+    //         else {
+    //             try {
+    //                 const response = await fetch(baseUrl + 'EmployeeWorkDays', {
+    //                     method: 'POST',
+    //                     headers: { 'Content-Type': 'application/json' },
+    //                     body: JSON.stringify(newWorkday),
+    //                     credentials: "include"
+    //                 })
+
+    //                 if (response.ok) {
+    //                     toast.success('Work day succesfully added!', { autoClose: 3000 });
+    //                     navigate('/', { state: { showToast: true, message: 'Work day succesfully added!' } })
+    //                 }
+    //                 else {
+    //                     toast.error('Workday failed to submit');
+    //                 }
+    //             } catch (error) {
+    //                 toast.error('An error occured')
+    //             }
+    //         }
+    //     }
+    // }
+
+
     const location = useLocation();
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
+    const [title, setTitle] = useState();
     const auth = useAuth();
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm();
+
+    const [checked, setChecked] = useState(false);
+    const handleCheck = () => {
+        setChecked(!checked);
+    }
+    const handleSelectChange = (event) => {
+        setTruckName(event.target.value);
+    }
+
+    useEffect(() => {
+        if (location.state.action == 'add') {
+            setTitle("Submit a new work day")
+        }
+        else if (location.state.action == 'edit') {
+            setTitle("Edit work day")
+        }
+        else {
+            setTitle("error")
+        }
+    })
 
     // get and format local time
     const today = new Date();
+
     const day = today.getDate();
     const month = today.getMonth() + 1;
     const year = today.getFullYear();
@@ -32,6 +225,8 @@ const NewHoursPage = () => {
 
     // Form variables
     const [employeeWorkDayId, setEmployeeWorkDayId] = useState(0);
+    const [firstName, setFirstName] = useState("Zack");
+    const [lastName, setLastName] = useState("Hartinger");
     const [customerName, setCustomerName] = useState("");
     const [date, setDate] = useState(todayString);
     const [startTime, setStartTime] = useState("08:00");
@@ -43,18 +238,11 @@ const NewHoursPage = () => {
     const [newWorkdayTasks, setNewWorkdayTasks] = useState([]); // newWorkdayTasks holds the JSON strings of checked values in the collapsible components I gave a 
     const [userId, setUserId] = useState(auth.user.id);
     const [workDayTaskErrorMessage, setWorkDayTaskErrorMessage] = useState("");
-    const [checked, setChecked] = useState(false);
-
-    const [workTasks, setWorkTasks] = useState([]);
-    const categories = [...new Set(workTasks.map(workTask => workTask.category))]
 
     // this variable takes the JSON strings from the newWorkDayTasks array and parses them back into objects so that the entire object can be stringified without adding unwanted escape characters
     const workDayTasks = newWorkdayTasks.map((task) =>
         JSON.parse(task)
     );
-
-    // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
-    const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
 
     const newWorkday = {
         employeeWorkDayId,
@@ -69,20 +257,6 @@ const NewHoursPage = () => {
         mileage,
         workDayTasks
     };
-
-
-    // ONMOUNT
-    useEffect(() => {
-        if (location.state.action == 'add') {
-            setTitle("Submit a new work day")
-        }
-        else if (location.state.action == 'edit') {
-            setTitle("Edit work day")
-        }
-        else {
-            setTitle("error")
-        }
-    })
 
     // checks the action variable to see if the user is editing a work day in which case it will populate the form fields with its values
     useEffect(() => {
@@ -103,25 +277,23 @@ const NewHoursPage = () => {
         }
     }, [])
 
+    // gets the ids of currently selected tasks to be passed as a prop to the collapsible component
+    const uniqueTaskIds = [...new Set(workDayTasks.map(task => task.workTaskId))]
 
-    // METHODS
-    const handleCheck = () => {
-        setChecked(!checked);
-    }
-    const handleSelectChange = (event) => {
-        setTruckName(event.target.value);
-    }
+    // --------------- This doesn't work ----------------------
+    // because useEffect is called after components are mounted, I fixed this issue by fetching the tasks within each component and passing a category prop to it. while this does work, it isn't the cleanest or most scalable way to accomplish what I want to
+    // ideally collapsible components will be created automatically based on changes in the database, the current solution doesn't allow for this and would require a developer (me) to mannually add a collapsible component with a new category anytime a new task 
+    // was added to the db
+    // Get work tasks from db 
 
-    const getWorkTasks = async () => {
-        const response = await fetch(baseUrl + "WorkTasks", {
-            credentials: "include"
-        })
-        const json = await response.json();
-        if (response.ok) {
-            setWorkTasks(json);
-        }
-    }
-    getWorkTasks();
+    // useEffect(() => {
+    //     fetch('https://localhost:7019/api/WorkTasks')
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setWorkTasks(data);
+    //         })
+    // }, [])
+
 
     const handleCheckboxChange = (event) => {
         const value = event.target.value;
@@ -135,7 +307,16 @@ const NewHoursPage = () => {
             setNewWorkdayTasks(newWorkdayTasks.filter(item => item !== value));
         }
     };
-    console.log(JSON.stringify(newWorkday))
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const watchCustomerName = watch("customerName");
+
     const onSubmit = async (data) => {
         if (newWorkday.workDayTasks.length == 0) {
             setWorkDayTaskErrorMessage("You must select at least one task to submit a workday");
@@ -147,8 +328,7 @@ const NewHoursPage = () => {
                     const response = await fetch(baseUrl + 'EmployeeWorkDays/edit', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newWorkday),
-                        credentials: "include"
+                        body: JSON.stringify(newWorkday)
                     })
 
                     if (response.ok) {
@@ -168,8 +348,7 @@ const NewHoursPage = () => {
                     const response = await fetch(baseUrl + 'EmployeeWorkDays', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newWorkday),
-                        credentials: "include"
+                        body: JSON.stringify(newWorkday)
                     })
 
                     if (response.ok) {
@@ -185,7 +364,7 @@ const NewHoursPage = () => {
             }
         }
     }
-
+    console.log(location.state.action)
     return (
         <>
             <div className="container pt-3 m-auto">
