@@ -14,27 +14,33 @@ import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import AuthProvider from './hooks/AuthProvider';
 import PrivateRoutes from './components/PrivateRoutes';
-// import LoadingProvider from './hooks/LoadingProvider';
+import LoadingProvider from './hooks/LoadingProvider';
+import ManageWorkTasks from './pages/ManageWorkTasks';
+import ManageUsers from './pages/ManageUsers';
 
 
 function App() {
   return (
     <div className='App'>
       <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path='/' element={<MainLayout />}>
-              <Route element={<PrivateRoutes />}>
-                <Route index element={<HomePage />} />
-                <Route path='/new-hours' element={<NewHoursPage />} />
-                <Route path='/view-hours' element={<ViewHoursPage />} />
-                <Route path='/delete-work-day' element={<DeleteWorkDayPage />} />
+        <LoadingProvider>
+          <AuthProvider>
+            <Routes>
+              <Route path='/' element={<MainLayout />}>
+                <Route element={<PrivateRoutes />}>
+                  <Route index element={<HomePage />} />
+                  <Route path='/new-hours' element={<NewHoursPage />} />
+                  <Route path='/view-hours' element={<ViewHoursPage />} />
+                  <Route path='/delete-work-day' element={<DeleteWorkDayPage />} />
+                  <Route path='/manage-tasks' element={<ManageWorkTasks />} />
+                  <Route path='/manage-users' element={<ManageUsers />} />
+                </Route>
+                <Route path='/log-in' element={<LogIn />} />
+                <Route path='/sign-up' element={<SignUp />} />
               </Route>
-              <Route path='/log-in' element={<LogIn />} />
-              <Route path='/sign-up' element={<SignUp />} />
-            </Route>
-          </Routes>
-        </AuthProvider>
+            </Routes>
+          </AuthProvider>
+        </LoadingProvider>
       </Router>
     </div>
   );

@@ -52,6 +52,17 @@ const Navbar = () => {
                         <li className="nav-item">
                             <NavLink to='/view-hours' onClick={toggleCollapse} className="nav-link" >View Hours</NavLink>
                         </li>
+                        {auth.user != null && auth.user.roles.includes("admin") ?
+                            <>
+                                <li className="nav-item">
+                                    <NavLink to='/manage-tasks' onClick={toggleCollapse} className="nav-link">Manage Tasks</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to='/manage-users' onClick={toggleCollapse} className="nav-link">Manage Users</NavLink>
+                                </li>
+                            </> :
+                            <></>
+                        }
                         <li className="nav-item">
                             <NavLink to='/new-hours' state={{ action: 'add' }} onClick={toggleCollapse} className="nav-link" >Submit Hours</NavLink>
                         </li>

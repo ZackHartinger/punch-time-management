@@ -28,7 +28,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         getCurrentUser();
     }, [])
-
     return (
         <AuthContext.Provider value={{ auth, setAuth, user, setUser }}>
             {children}
