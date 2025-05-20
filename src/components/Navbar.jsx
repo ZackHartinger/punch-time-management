@@ -25,6 +25,7 @@ const Navbar = () => {
         if (response.ok) {
             auth.setAuth(false);
             auth.setUser(null);
+            localStorage.removeItem('auth')
             navigate("/");
         }
     }

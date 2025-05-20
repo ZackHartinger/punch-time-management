@@ -2,9 +2,10 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
 
 const PrivateRoutes = () => {
-    const auth = useAuth();
+    const auth = localStorage.getItem('auth');
+    console.log(auth)
     return (
-        auth.auth == true ? <Outlet /> : <Navigate to='/log-in' />
+        auth ? <Outlet /> : <Navigate to='/log-in' />
     )
 }
 

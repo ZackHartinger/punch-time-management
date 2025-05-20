@@ -39,6 +39,7 @@ const LogIn = () => {
             if (response.ok) {
                 auth.setAuth(true);
                 auth.setUser(json);
+                localStorage.setItem('auth', true);
                 navigate("/");
             }
         }

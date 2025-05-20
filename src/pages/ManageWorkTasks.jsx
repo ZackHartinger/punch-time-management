@@ -15,12 +15,8 @@ const ManageWorkTasks = () => {
     const [workTasks, setWorkTasks] = useState();
     const [category, setCategory] = useState();
     const [description, setDescription] = useState();
-    const newTask = {
-        category,
-        description,
-        isDeprecated: false,
-        companyId: auth.user.companys[0].companyId
-    }
+    const [rerender, setRerender] = useState(0);
+
     const {
         register,
         handleSubmit,
@@ -45,7 +41,7 @@ const ManageWorkTasks = () => {
         }
 
         getWorkTasks();
-    }, [])
+    }, [rerender])
 
     const handleDeleteClick = async (wt) => {
         const workTaskToDelete = {
@@ -72,33 +68,43 @@ const ManageWorkTasks = () => {
         catch (error) {
             toast.error('An error occurred')
         }
-        window.location.reload();
+        setRerender(rerender + 1);
     }
-
+    console.log(rerender)
     const handleAddClick = async (wt) => {
         try {
-            const response = await fetch(baseUrl + 'WorkTasks', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newTask),
-                credentials: 'include'
-            })
+            if (auth.user) {
+                const newTask = {
+                    category,
+                    description,
+                    isDeprecated: false,
+                    companyId: auth.user.companies[0].companyId
+                }
+                const response = await fetch(baseUrl + 'WorkTasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newTask),
+                    credentials: 'include'
+                })
 
-            if (response.ok) {
-                toast.success("Work task added!", { autoClose: 1000 });
+                if (response.ok) {
+                    toast.success("Work task added!", { autoClose: 1000 });
+                    setRerender(rerender + 1);
+                    setCategory('');
+                    setDescription('');
+                }
             }
-
-            // getWorkTasks();
         }
         catch (error) {
             toast.error('An error has occurred, please try again')
         }
-        navigate('/manage-tasks');
     }
 
-    console.log(workTasks)
 
     if (!workTasks) {
+        return <></>
+    }
+    if (!auth.user) {
         return <></>
     }
 

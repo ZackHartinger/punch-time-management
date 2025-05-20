@@ -18,15 +18,19 @@ const AuthProvider = ({ children }) => {
         if (response.ok) {
             setUser(json)
             setAuth(true)
+            localStorage.setItem('auth', true);
         }
         else {
             setUser(null)
             setAuth(false)
+            localStorage.removeItem('auth');
         }
     }
 
     useEffect(() => {
-        getCurrentUser();
+        if (!user) {
+            getCurrentUser();
+        }
     }, [])
     return (
         <AuthContext.Provider value={{ auth, setAuth, user, setUser }}>
