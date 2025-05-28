@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 
 const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
     const [taskList, setTaskList] = useState([]);
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     useEffect(() => {
-        fetch(`https://localhost:7019/api/WorkTasks/category/${cat}`)
+        fetch(baseUrl + `WorkTasks/category/${cat}`)
             .then((res) => res.json())
             .then((data) => {
                 setTaskList(data);
@@ -18,6 +19,7 @@ const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
 
     return (
         <div className="row mb-3">
+            <div className="col-1"></div>
             <div className="collapsible col-md-8 pb-0">
                 <button className="collapsible-btn btn w-100 mb-0" type="button" data-bs-toggle="collapse" data-bs-target={bsTarget} aria-expanded="false" aria-controls="collapsible">
                     <h2>{category}</h2>
@@ -31,7 +33,7 @@ const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
                                     < li className="list-group-item p-3" >
                                         <label>
                                             {/* Need to change the value to the task id once front end is making calls to the API */}
-                                            <input className="me-3" type="checkbox" checked="true" value={JSON.stringify(task)} onChange={updateTaskList}></input>
+                                            <input className="me-3" type="checkbox" checked={true} value={JSON.stringify(task)} onChange={updateTaskList}></input>
                                             {task.description}
                                         </label>
                                     </li> :

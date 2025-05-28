@@ -9,16 +9,16 @@ import { to12Hour } from '../helpers/helpers';
 
 const DeleteWorkDayPage = () => {
     const title = "Delete work day";
-
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     const navigate = useNavigate();
     const location = useLocation();
     const fullName = location.state.fullName;
     const workDayToDelete = location.state.workDayToDelete;
     const employeeWorkDayId = workDayToDelete.employeeWorkDayId;
-    console.log(employeeWorkDayId)
+
     const handleDelete = async () => {
         try {
-            const response = await fetch(`https://localhost:7019/api/EmployeeWorkDays/${employeeWorkDayId}`, {
+            const response = await fetch(baseUrl + `EmployeeWorkDays/${employeeWorkDayId}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'text/plain;charset=UTF-8' }
             })
@@ -43,7 +43,7 @@ const DeleteWorkDayPage = () => {
     return (
         <div className='container pt-3'>
             <PageTitle title={title} />
-            <div className='work-day-card p-3 rounded shadow-lg mb-4'>
+            <div className='work-day-card rounded mb-4'>
                 <h2 className='card-header mb-1 fw-bolder'>{fullName}</h2>
                 <div className="work-day-details ms-0 mb-0 p-4 rounded-bottom shadow-lg">
                     <div className="row mb-3" >
