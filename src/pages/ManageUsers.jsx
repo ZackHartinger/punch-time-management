@@ -26,7 +26,7 @@ const ManageUsers = () => {
 
         getUsers();
     }, [])
-
+    console.log(users);
     return (
         <div className="container pt-3">
             <PageTitle title={title}></PageTitle>
