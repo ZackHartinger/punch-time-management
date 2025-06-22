@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const WorkDayTable = ({ tableData, baseUrl }) => {
     const [selectedId, setSelectedId] = useState();
@@ -49,10 +51,10 @@ const WorkDayTable = ({ tableData, baseUrl }) => {
                         <td>{t.customerName}</td>
                         <td>
                             <input type='hidden' value={t.employeeWorkDayId}></input>
-                            <button className="btn btn-submit w-50" style={{ backgroundColor: '#53b700' }} onClick={() => handleEditClick(t)} >Edit</button>
+                            <button className="btn btn-submit w-50" style={{ backgroundColor: '#53b700' }} onClick={() => handleEditClick(t)} ><FontAwesomeIcon icon={faPenSquare} /></button>
                         </td>
                         <td>
-                            <button className="btn btn-submit w-50" style={{ backgroundColor: 'crimson' }} onClick={() => handleDeleteClick(t)}>Delete</button>
+                            <button className="btn btn-submit w-50" style={{ backgroundColor: 'crimson' }} onClick={() => handleDeleteClick(t)}><FontAwesomeIcon icon={faTrash} /></button>
                         </td>
                     </tr>
                 )}

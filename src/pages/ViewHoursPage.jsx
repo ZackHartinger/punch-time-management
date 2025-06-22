@@ -4,6 +4,7 @@ import Spinner from "../components/Spinner";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { data } from "react-router-dom";
+import { useAuth } from "../hooks/AuthProvider";
 // import { useLoading } from "../hooks/LoadingProvider";
 
 const ViewHoursPage = () => {
@@ -20,6 +21,7 @@ const ViewHoursPage = () => {
             setToDate(null)
         }
     }
+    const auth = useAuth();
 
     const today = new Date;
     const todayString = today.toLocaleString('sv').split(' ')[0];
@@ -59,7 +61,7 @@ const ViewHoursPage = () => {
     // get workdays from server
     useEffect(() => {
         // loading.setIsLoading(true)
-        fetch(baseUrl + 'EmployeeWorkDays')
+        fetch(baseUrl + `EmployeeWorkDays/by-company/${auth.user.companies[0].companyId}`)
             .then((res) => res.json())
             .then((data) => {
                 setWorkdays(data);

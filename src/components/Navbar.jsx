@@ -29,7 +29,9 @@ const Navbar = () => {
             navigate("/");
         }
     }
-    console.log(auth.user)
+    // if(auth.user && auth.user.roles.includes("admin")){
+    //     return()
+    // }
     return (
         <nav className="navbar navbar-expand-sm navbar-dark" style={{
             backgroundColor: '#393a3d'
@@ -43,7 +45,7 @@ const Navbar = () => {
                     <ul className="navbar-nav text-center ms-auto">
                         {auth.user !== null ?
                             <li>
-                                <h2 className="navbar-brand nav-link">Hello, {auth.user.fullName}</h2>
+                                <h2 className="navbar-brand nav-link">Hello, {auth.user.firstName}</h2>
                             </li> :
                             <></>
                         }
@@ -54,15 +56,18 @@ const Navbar = () => {
                             <NavLink to='/view-hours' onClick={toggleCollapse} className="nav-link" >View Hours</NavLink>
                         </li>
                         {auth.user != null && auth.user.roles.includes("admin") ?
-                            <>
+                            (<>
                                 <li className="nav-item">
                                     <NavLink to='/manage-tasks' onClick={toggleCollapse} className="nav-link">Manage Tasks</NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to='/manage-users' onClick={toggleCollapse} className="nav-link">Manage Users</NavLink>
                                 </li>
-                            </> :
-                            <></>
+                            </>) : auth.user && auth.user.roles.includes("demo") ?
+                                (<li className="nav-item">
+                                    <NavLink to='/manage-tasks' onClick={toggleCollapse} className="nav-link">Manage Tasks</NavLink>
+                                </li>) :
+                                (<></>)
                         }
                         <li className="nav-item">
                             <NavLink to='/new-hours' state={{ action: 'add' }} onClick={toggleCollapse} className="nav-link" >Submit Hours</NavLink>
@@ -79,7 +84,9 @@ const Navbar = () => {
                                     </li>
                                 </> :
                                 <li className="nav-item">
-                                    <button onClick={() => { toggleCollapse(); logOut(); }} className="nav-link">Log Out</button>
+                                    <NavLink className="nav-link">
+                                        <button onClick={() => { toggleCollapse(); logOut(); }} className="nav-link mx-auto">Log Out</button>
+                                    </NavLink>
                                 </li>
 
                         }
