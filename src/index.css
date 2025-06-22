@@ -1,5 +1,5 @@
 body {
-  background-color: #eee !important;
+  background-color: #f4f5f8 !important;
 }
 
 
@@ -47,14 +47,27 @@ body {
   }
 }
 
+.page-title {
+  color: black !important;
+}
+
+/* Navbar styling */
+#logo {
+  background-image: linear-gradient(to right bottom, rgb(248, 75, 75), rgb(121, 140, 247));
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
 /* HomePage styling */
 
 table.work-day-table {
   border-radius: 15px;
+  /* margin: 20px 20px 20px; */
 }
 
 table.work-day-table th {
-  background-color: #517841;
+  background-color: #393a3d;
   color: #eee;
 }
 
@@ -66,43 +79,79 @@ div.page-title h1 {
 /* ViewHoursPage styling */
 .work-day-card {
   /* border: #517841 2px solid; */
-  background-color: #91b381;
+  background-color: #fff;
   color: #333;
-  padding: 40px;
-  box-shadow: 20px 20px 20px #333;
+  /* padding: 40px; */
+  box-shadow: 0 0 0.3 #333;
 }
 
 .work-day-details {
-  border: #517841 2px solid;
+  /* border: #517841 2px solid; */
   margin-left: 1rem;
-  background-color: #eee;
-  color: #333;
+  background-color: #fff;
+  color: black;
+
 }
 
-.work-day-card {
-  letter-spacing: .1rem;
+.work-day {
+  padding: 20px;
+  /* margin-bottom: 20px;
+  border: 1px solid #333;
+  border-radius: 5px; */
 }
+
+/* .work-day-card {
+  letter-spacing: .1rem;
+} */
 
 .card-header {
   letter-spacing: .2rem;
-  padding: 50px;
+  padding: 50px !important;
+  color: #fff !important;
+  background-color: #393a3d !important;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+
+.date {
+  color: #222;
+  display: inline;
+}
+
+.time {
+  font-size: large;
+  color: #333;
+  font-weight: 600;
+}
+
+.work-day-tasks {
+  background-color: #f4f5f8;
+  padding: 20px;
+
 }
 
 /* NewHoursPage styles */
 
 button.collapsible-btn {
-  background-color: #517841;
+  background-color: #393a3d;
   color: #eee;
   border-radius: 0;
+
 }
 
+
 button.collapsible-btn:hover {
-  background-color: #a8bca0;
+  background-color: #acabab;
+  color: #333;
+}
+
+button.collapsible-btn:active {
+  background-color: #eee;
   color: #333;
 }
 
 div.collapsible-content {
-  background-color: rgba(168, 188, 160, .6);
+  background-color: #fff;
   color: #333;
   margin-top: 0;
   border-radius: 0 0 10px 10px;
@@ -110,13 +159,40 @@ div.collapsible-content {
 }
 
 button.btn-submit {
-  background-color: #517841;
+  background-color: #212529;
   color: #eee;
   font-size: 1.2rem;
   width: 100%;
+  transition: all .2s ease-in-out;
 }
 
 button.btn-submit:hover {
-  background-color: #a8bca0;
-  color: #333;
+  background-color: #212529;
+  color: #eee;
+  transform: translateY(-5px);
+  /* box-shadow: 0, 0, 0, .3; */
+}
+
+button.btn-submit:active {
+  transform: translateY(7px);
+}
+
+/* Spinner styling and animations */
+.spinner {
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  border: 5px #acabab solid;
+  border-top: 5px #333 solid;
+  animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

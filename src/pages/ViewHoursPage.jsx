@@ -1,11 +1,16 @@
 import WorkDayDisplay from "../components/WorkDayDisplay";
 import PageTitle from "../components/PageTitle";
+import Spinner from "../components/Spinner";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { data } from "react-router-dom";
+import { useAuth } from "../hooks/AuthProvider";
+// import { useLoading } from "../hooks/LoadingProvider";
 
 const ViewHoursPage = () => {
     const title = "View Hours";
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
+    // const loading = useLoading();
     const [checked, setChecked] = useState(false);
     const handleCheck = () => {
         setChecked(!checked);
@@ -16,6 +21,7 @@ const ViewHoursPage = () => {
             setToDate(null)
         }
     }
+    const auth = useAuth();
 
     const today = new Date;
     const todayString = today.toLocaleString('sv').split(' ')[0];
@@ -41,7 +47,9 @@ const ViewHoursPage = () => {
 
     // get users
     useEffect(() => {
-        fetch('https://localhost:7019/api/Users')
+        fetch(baseUrl + 'AppUsers', {
+            credentials: "include"
+        })
             .then((res) => res.json())
             .then((data) => {
                 setUsers(data);
@@ -52,31 +60,35 @@ const ViewHoursPage = () => {
 
     // get workdays from server
     useEffect(() => {
-        fetch('https://localhost:7019/api/EmployeeWorkDays')
+        // loading.setIsLoading(true)
+        fetch(baseUrl + `EmployeeWorkDays/by-company/${auth.user.companies[0].companyId}`)
             .then((res) => res.json())
             .then((data) => {
                 setWorkdays(data);
             })
+        // .finally(() => {
+        //     loading.setIsLoading(false);
+        // })
     }, [])
 
     // get workdays of specific user id
     const filterData = useCallback(() => {
         if (date == null && toDate == null) {
-            fetch(`https://localhost:7019/api/EmployeeWorkDays/filter/${userId}`)
+            fetch(baseUrl + `EmployeeWorkDays/filter/${userId}`)
                 .then((res) => res.json())
                 .then((data) => {
                     setWorkdays(data);
                 })
         }
         else if (toDate == null) {
-            fetch(`https://localhost:7019/api/EmployeeWorkDays/filter/${userId}/${date}`)
+            fetch(baseUrl + `EmployeeWorkDays/filter/${userId}/${date}`)
                 .then((res) => res.json())
                 .then((data) => {
                     setWorkdays(data);
                 })
         }
         else {
-            fetch(`https://localhost:7019/api/EmployeeWorkDays/filter/${userId}/${date}/${toDate}`)
+            fetch(baseUrl + `EmployeeWorkDays/filter/${userId}/${date}/${toDate}`)
                 .then((res) => res.json())
                 .then((data) => {
                     setWorkdays(data);
@@ -93,7 +105,6 @@ const ViewHoursPage = () => {
         filteredWorkdays.push(workdays.filter(workday => uniqueIds[i] == workday.userId))
     }
 
-    console.log(filteredWorkdays);
     return (
         <>
             <div className="container pt-3">
@@ -108,7 +119,7 @@ const ViewHoursPage = () => {
                             <select className="form-select" onChange={handleSelectChange}>
                                 <option value="0">Select an employee</option>
                                 {users.map(user =>
-                                    <option value={user.userId}>{user.fullName}</option>
+                                    <option value={user.id} key={user.id}>{user.fullName}</option>
                                 )
                                 }
                             </select>
@@ -139,17 +150,21 @@ const ViewHoursPage = () => {
                         </div>
                     </div>
                     <div className="row mb-3">
-                        <div className="col-3"></div>
-                        <div className="col-6">
+                        <div className="col-4"></div>
+                        <div className="col-3">
                             <button className="btn btn-submit w-100" onClick={filterData}>Filter</button>
                         </div>
-                        <div className="col-3"></div>
+                        <div className="col-5"></div>
                     </div>
                 </div>
 
             </div>
             {/* Container for the WorkDayDisplay component */}
             <div className="work-data container">
+                {/* {loading.isLoading == true ?
+                    <Spinner /> :
+                    <WorkDayDisplay filteredWorkdays={filteredWorkdays} />
+                } */}
                 <WorkDayDisplay filteredWorkdays={filteredWorkdays} />
             </div>
         </>

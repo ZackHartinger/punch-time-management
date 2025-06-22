@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const WorkDayTable = ({ tableData }) => {
+const WorkDayTable = ({ tableData, baseUrl }) => {
     const [selectedId, setSelectedId] = useState();
     const [selectedWorkDay, setSelectedWorkDay] = useState();
 
@@ -11,7 +13,7 @@ const WorkDayTable = ({ tableData }) => {
     const handleEditClick = async (event) => {
         const selectedId = event.employeeWorkDayId
 
-        const response = await fetch(`https://localhost:7019/api/EmployeeWorkDays/${selectedId}`)
+        const response = await fetch(baseUrl + `EmployeeWorkDays/${selectedId}`)
         const data = await response.json();
         await setSelectedWorkDay(data);
 
@@ -22,7 +24,7 @@ const WorkDayTable = ({ tableData }) => {
         const selectedId = event.employeeWorkDayId;
         const fullName = event.user.fullName;
 
-        const response = await fetch(`https://localhost:7019/api/EmployeeWorkDays/${selectedId}`)
+        const response = await fetch(baseUrl + `EmployeeWorkDays/${selectedId}`)
         const data = await response.json();
         await setSelectedWorkDay(data);
 
@@ -44,15 +46,15 @@ const WorkDayTable = ({ tableData }) => {
             </thead>
             <tbody>
                 {tableData.map(t =>
-                    <tr className="work-day-table-row">
+                    <tr className="work-day-table-row" key={t.employeeWorkDayId}>
                         <td scope="row">{t.date}</td>
                         <td>{t.customerName}</td>
                         <td>
                             <input type='hidden' value={t.employeeWorkDayId}></input>
-                            <button className="btn btn-submit" onClick={() => handleEditClick(t)} >Edit</button>
+                            <button className="btn btn-submit w-50" style={{ backgroundColor: '#53b700' }} onClick={() => handleEditClick(t)} ><FontAwesomeIcon icon={faPenSquare} /></button>
                         </td>
                         <td>
-                            <button className="btn btn-submit" onClick={() => handleDeleteClick(t)}>Delete</button>
+                            <button className="btn btn-submit w-50" style={{ backgroundColor: 'crimson' }} onClick={() => handleDeleteClick(t)}><FontAwesomeIcon icon={faTrash} /></button>
                         </td>
                     </tr>
                 )}
