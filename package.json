@@ -1,7 +1,7 @@
 {
   "name": "punch-time-management",
   "private": true,
-  "proxy": "https://punchapi20250619063211-ftd4cxhrdge9fubs.westus2-01.azurewebsites.net/",
+  "proxy": "https://punchapi20250619063211-ftd4cxhrdge9fubs.westus2-01.azurewebsites.net",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
