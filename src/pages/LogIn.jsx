@@ -8,9 +8,8 @@ import { useAuth } from '../hooks/AuthProvider';
 
 const LogIn = () => {
     const title = "Log In"
-    const baseUrl = process.env.REACT_APP_PUNCH_API_BASE_URL
-    console.log(baseUrl)
-    console.log("YO")
+    const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
+    console.log("BaseURL: " + baseUrl)
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const credentials = {
