@@ -113,7 +113,7 @@ const NewHoursPage = () => {
     }
 
     const getWorkTasks = async () => {
-        const response = await fetch(baseUrl + `by-company/${auth.user.companies[0].companyId}`, {
+        const response = await fetch(baseUrl + `worktasks/by-company/${auth.user.companies[0].companyId}`, {
             credentials: "include"
         })
         const json = await response.json();
