@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 
-const Collapsible = ({ cat, updateTaskList, selectedTasks }) => {
+const Collapsible = ({ cat, updateTaskList, selectedTasks, companyId }) => {
     const [taskList, setTaskList] = useState([]);
     const baseUrl = import.meta.env.VITE_PUNCH_API_BASE_URL;
     useEffect(() => {
-        fetch(baseUrl + `WorkTasks/category/${cat}`)
+        fetch(baseUrl + `WorkTasks/category/${cat}/${companyId}`)
             .then((res) => res.json())
             .then((data) => {
                 setTaskList(data);

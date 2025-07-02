@@ -314,7 +314,7 @@ const NewHoursPage = () => {
                                 uniqueTaskIds != null || categories != null ?
                                     <>
                                         {categories.map(category =>
-                                            <Collapsible cat={category} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
+                                            <Collapsible cat={category} companyId={auth.user.companies[0].companyId} updateTaskList={handleCheckboxChange} selectedTasks={uniqueTaskIds}></Collapsible>
                                         )}
                                     </> :
                                     <>
