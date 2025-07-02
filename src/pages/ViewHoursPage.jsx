@@ -100,6 +100,7 @@ const ViewHoursPage = () => {
     const uniqueIds = [...new Set(workdays.map(workday => workday.userId))]
 
     // Create array of workdays "grouped" by user Id to be used in the DOM, grouping them this way provide greater flexibility in how the data is displayed to the user
+    // This can be drastically simplified by refactoring the API method being called to group the workdays on the server side 
     const filteredWorkdays = []
     for (let i = 0; i < uniqueIds.length; i++) {
         filteredWorkdays.push(workdays.filter(workday => uniqueIds[i] == workday.userId))

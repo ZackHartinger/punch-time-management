@@ -42,6 +42,7 @@ const NewHoursPage = () => {
     const [mileage, setMileage] = useState(0);
     const [newWorkdayTasks, setNewWorkdayTasks] = useState([]); // newWorkdayTasks holds the JSON strings of checked values in the collapsible components I gave a 
     const [userId, setUserId] = useState(auth.user.id);
+    const [companyId, setCompanyId] = useState(auth.user.companies[0].companyId)
     const [workDayTaskErrorMessage, setWorkDayTaskErrorMessage] = useState("");
     const [checked, setChecked] = useState(false);
 
@@ -65,6 +66,7 @@ const NewHoursPage = () => {
         lunchTime,
         lunchDuration,
         userId,
+        companyId,
         truckName,
         mileage,
         workDayTasks
