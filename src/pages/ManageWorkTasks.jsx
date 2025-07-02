@@ -126,7 +126,7 @@ const ManageWorkTasks = () => {
                             <td scope="row">{wt.category}</td>
                             <td>{wt.description}</td>
                             <td>
-                                <button className="btn btn-submit w-50" style={{ backgroundColor: 'crimson' }} onClick={() => handleDeleteClick(wt)}>Delete</button>
+                                <button className="btn btn-submit w-100" style={{ backgroundColor: 'crimson' }} onClick={() => handleDeleteClick(wt)}>Delete</button>
                             </td>
                         </tr>
                     )}
