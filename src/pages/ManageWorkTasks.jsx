@@ -27,7 +27,7 @@ const ManageWorkTasks = () => {
     useEffect(() => {
         const getWorkTasks = async () => {
             try {
-                const response = await fetch(baseUrl + `WorkTasks/by-company/${auth.user.companies[0].companyId}`, {
+                const response = await fetch(baseUrl + `WorkTasks/group-by-company/${auth.user.companies[0].companyId}`, {
                     credentials: 'include'
                 })
                 const json = await response.json();
@@ -70,7 +70,7 @@ const ManageWorkTasks = () => {
         }
         setRerender(rerender + 1);
     }
-    console.log(rerender)
+
     const handleAddClick = async (wt) => {
         try {
             if (auth.user) {
