@@ -38,7 +38,7 @@ const HomePage = () => {
         }
 
         getTopFive();
-    })
+    }, [])
 
     // useEffect(() => {
     //     fetch(baseUrl + `EmployeeWorkDays/top-5/${auth.user.id}`, {
