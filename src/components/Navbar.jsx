@@ -26,7 +26,7 @@ const Navbar = () => {
             auth.setAuth(false);
             auth.setUser(null);
             localStorage.removeItem('auth')
-            navigate("/");
+            navigate("/log-in");
         }
     }
     // if(auth.user && auth.user.roles.includes("admin")){
