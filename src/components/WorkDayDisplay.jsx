@@ -7,7 +7,11 @@ const WorkDayDisplay = ({ filteredWorkdays }) => {
     const workdayData = filteredWorkdays.map((employeeWorkdays, index) => {
         return (
             <div className='work-day-card rounded mb-4' key={index}>
-                <h2 className='card-header mb-1 fw-bolder rounded-top'>{employeeWorkdays[0].user.fullName}</h2>
+                {
+                    employeeWorkdays[0].user.firstName == "Guest" ?
+                        <h2 className='card-header mb-1 fw-bolder rounded-top'>{employeeWorkdays[0].user.firstName}</h2> :
+                        <h2 className='card-header mb-1 fw-bolder rounded-top'>{employeeWorkdays[0].user.fullName}</h2>
+                }
                 <div className="work-day-details ms-0 mb-0 p-4 rounded-bottom ">
                     {employeeWorkdays.map(workday =>
                         <div key={workday.employeeWorkDayId}>

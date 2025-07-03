@@ -45,7 +45,7 @@ const LogIn = () => {
             }
         }
         catch (error) {
-            toast.error('An error occured while attempting to log in.')
+            toast.error(error.response?.data?.message || 'An error occured while attempting to log in.')
         }
     }
     return (
